@@ -193,7 +193,7 @@ namespace Trainer.net
             if (_currentEntry.Sprite == numSprite.Value)
                 numSprite_ValueChanged(numSprite, null);
             numSprite.Value = _currentEntry.Sprite;
-            txtUnknown.Text = _currentEntry.UnknownOne.ToString("x");
+            txtUnknown.Text = _currentEntry.Unknown.ToString("x");
             numMoneyRate.Value = _currentEntry.TrainerClass < 0x30
                 ? _moneyData.MoneyValues[_currentEntry.TrainerClass]
                 : _moneyData.LastValue;
@@ -206,6 +206,28 @@ namespace Trainer.net
             comItemTwo.SelectedIndex = _currentEntry.ItemTwo;
             comItemThree.SelectedIndex = _currentEntry.ItemThree;
             comItemFour.SelectedIndex = _currentEntry.ItemFour;
+
+            //Load Pokemon Data
+            numCurrentPokemon.Maximum = _currentEntry.PokeCount;
+            numCurrentPokemon.Value = 1;
+            numCountPokemon.Value = _currentEntry.PokeCount;
+            chkDualBattle.Checked = _currentEntry.DualBattle;
+            LoadPokemon();
+        }
+
+        private void LoadPokemon()
+        {
+            SinglePokemon _currentPokemon = _currentEntry.PokemonData.Entries[(int)numCurrentPokemon.Value - 1];
+            txtPokemonOffset.Text = _currentEntry.PokemonData.Position.ToString("x").ToUpper();
+            comSpecies.SelectedIndex = _currentPokemon.Species;
+            comHeldItem.SelectedIndex = _currentPokemon.Item;
+            numAi.Value = _currentPokemon.AiLevel;
+            numLevel.Value = _currentPokemon.Level;
+            comAttackOne.SelectedIndex = _currentPokemon.Attack1;
+            comAttackTwo.SelectedIndex = _currentPokemon.Attack2;
+            comAttackThree.SelectedIndex = _currentPokemon.Attack3;
+            comAttackFour.SelectedIndex = _currentPokemon.Attack4;
+
         }
 
         private void lstTrainers_SelectedIndexChanged(object sender, EventArgs e)
@@ -283,6 +305,16 @@ namespace Trainer.net
             Color[] entries = p.Entries;
             entries[0] = Color.Transparent;
             picPokemon.Image.Palette = p;
+        }
+
+        private void numCountPokemon_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void numCurrentPokemon_ValueChanged(object sender, EventArgs e)
+        {
+            LoadPokemon();
         }
     }
 }

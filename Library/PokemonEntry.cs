@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 using Single.Core;
 
 namespace Trainer.net.Library
@@ -7,11 +9,20 @@ namespace Trainer.net.Library
     {
         private readonly int _originalSize;
 
+        public List<SinglePokemon> Entries = new List<SinglePokemon>(); 
+
         public PokemonEntry(UInt32 position, TrainerEntry trainerBase)
         {
             Position = position;
             TrainerBase = trainerBase;
-            //_originalSize = trainerBase.GetRawData().Length;
+            trainerBase.Rom.SetStreamOffset(Position);
+
+            for (int i = 0; i < trainerBase.PokeCount; ++i)
+            {
+                Entries.Add(new SinglePokemon(trainerBase.Rom, trainerBase));
+            }
+
+            _originalSize = GetSize();
         }
 
         public UInt32 Position { get; set; }
@@ -20,7 +31,7 @@ namespace Trainer.net.Library
 
         public int GetSize()
         {
-            return TrainerBase.GetRawData().Length;
+            return GetRawData().Length;
         }
 
         public uint GetCurrentOffset()
@@ -35,7 +46,9 @@ namespace Trainer.net.Library
 
         public byte[] GetRawData()
         {
-            throw new NotImplementedException(); //TODO Implement
+            List<byte> data = new List<byte>();
+            Entries.ForEach(element => data.AddRange(element.GetRawData()));
+            return data.ToArray();
         }
 
         public int GetOriginalSize()

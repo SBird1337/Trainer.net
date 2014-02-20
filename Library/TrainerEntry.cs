@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using Single.Core;
 using Single.Core.Text;
 
@@ -16,6 +17,7 @@ namespace Trainer.net.Library
         public TrainerEntry(HexEncoder encoder, Rom rom)
         {
             _encoder = encoder;
+            Rom = rom;
 
             byte dataStructure = rom.ReadByte();
             UsesCustomMoves = Convert.ToBoolean(dataStructure & 1);
@@ -31,19 +33,27 @@ namespace Trainer.net.Library
             ItemTwo = rom.ReadUInt16();
             ItemThree = rom.ReadUInt16();
             ItemFour = rom.ReadUInt16();
-            UnknownOne = rom.ReadUInt32();
-            UnknownTwo = rom.ReadUInt32();
+            DualBattle = Convert.ToBoolean(rom.ReadByte());
+            rom.SetStreamOffset(rom.CurrentPosition + 3);
+
+            Unknown = rom.ReadUInt32();
             PokeCount = rom.ReadByte();
-            PaddingOne = rom.ReadByte();
-            PaddingTwo = rom.ReadByte();
-            PaddingThree = rom.ReadByte();
-            PokemonData = new PokemonEntry(rom.ReadUInt32() & 0x1FFFFFF, this);
+            rom.SetStreamOffset(rom.CurrentPosition + 3);
+
+            uint pos = rom.ReadUInt32() & 0x1FFFFFF;
+            long cpos = rom.CurrentPosition;
+            if(pos > 0)
+                PokemonData = new PokemonEntry(pos, this);
+            rom.SetStreamOffset(cpos);
+            
         }
 
         public bool UsesCustomItems { get; set; }
         public bool UsesCustomMoves { get; set; }
         public byte TrainerClass { get; set; }
         public bool IsFemale { get; set; }
+
+        public Rom Rom { get; set; }
 
         public byte Music
         {
@@ -77,17 +87,11 @@ namespace Trainer.net.Library
 
         public UInt16 ItemFour { get; set; }
 
-        public UInt32 UnknownOne { get; set; }
+        public bool DualBattle { get; set; }
 
-        public UInt32 UnknownTwo { get; set; }
+        public UInt32 Unknown { get; set; }
 
         public byte PokeCount { get; set; }
-
-        public byte PaddingOne { get; set; }
-
-        public byte PaddingTwo { get; set; }
-
-        public byte PaddingThree { get; set; }
 
         public PokemonEntry PokemonData { get; set; }
 
@@ -107,13 +111,15 @@ namespace Trainer.net.Library
                 writer.Write(ItemTwo);
                 writer.Write(ItemThree);
                 writer.Write(ItemFour);
-                writer.Write(UnknownOne);
-                writer.Write(UnknownTwo);
+                writer.Write(Convert.ToByte(DualBattle));
+                writer.Write(new byte[] { 0, 0, 0 });
+                writer.Write(Unknown);
                 writer.Write(PokeCount);
-                writer.Write(PaddingOne);
-                writer.Write(PaddingTwo);
-                writer.Write(PaddingThree);
-                writer.Write(PokemonData.Position | 0x08000000);
+                writer.Write(new byte[] { 0, 0, 0 });
+                if(PokemonData != null)
+                    writer.Write(PokemonData.Position | 0x08000000);
+                else
+                    writer.Write((uint)0);
                 return ms.ToArray();
             }
         }
