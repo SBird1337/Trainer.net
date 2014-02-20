@@ -21,7 +21,8 @@ namespace Trainer.net.Library
                 Attack3 = input.ReadUInt16();
                 Attack4 = input.ReadUInt16();
             }
-            input.ReadUInt16();
+            if(!(trainerBase.UsesCustomMoves && trainerBase.UsesCustomItems))
+                input.ReadUInt16();
         }
 
         public byte[] GetRawData()
