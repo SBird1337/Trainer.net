@@ -68,6 +68,7 @@
     </Compile>
     <Compile Include="Library\MoneyData.cs" />
     <Compile Include="Library\PokemonEntry.cs" />
+    <Compile Include="Library\SinglePokemon.cs" />
     <Compile Include="Library\StaticElements.cs" />
     <Compile Include="Library\TrainerEntry.cs" />
     <Compile Include="Program.cs" />
