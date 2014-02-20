@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <GameCode>BPED</GameCode>
+  <TrainerPointer>0x35880</TrainerPointer>
+  <PokemonNamePointer>0x1644C</PokemonNamePointer>
+  <TrainerClassPointer>0x4E6AC</TrainerClassPointer>
+  <ItemNamePointer>0xD70E8</ItemNamePointer>
+  <TrainerClassNamePointer>0x183B4</TrainerClassNamePointer>
+  <SpritePointer>0x5DF7C</SpritePointer>
+  <PalettePointer>0x5B788</PalettePointer>
+  <AttackNamePointer>0x59B18</AttackNamePointer>
+  <TrainerCount>854</TrainerCount>
+  <ItemCount>376</ItemCount>
+  <SpriteCount>93</SpriteCount>
+  <PokemonCount>412</PokemonCount>
+  <AttackCount>355</AttackCount>
+  <PokemonSpritePointer>0x2CAE4</PokemonSpritePointer>
+  <PokemonPalettePointer>0x6E75C</PokemonPalettePointer>
+</Configuration>
