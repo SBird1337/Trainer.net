@@ -9,3 +9,5 @@ D:\Users\Philipp\Documents\Visual Studio 2012\Projects\Single\Trainer.net\bin\Re
 D:\Users\Philipp\Documents\Visual Studio 2012\Projects\Single\Trainer.net\bin\Release\Single.pdb
 D:\Users\Philipp\Documents\Visual Studio 2012\Projects\Single\Trainer.net\obj\Release\Trainer.net.exe
 D:\Users\Philipp\Documents\Visual Studio 2012\Projects\Single\Trainer.net\obj\Release\Trainer.net.pdb
+D:\Users\Philipp\Documents\Visual Studio 2012\Projects\Single\Trainer.net\bin\Release\Trainer.net.exe.CodeAnalysisLog.xml
+D:\Users\Philipp\Documents\Visual Studio 2012\Projects\Single\Trainer.net\bin\Release\Trainer.net.exe.lastcodeanalysissucceeded

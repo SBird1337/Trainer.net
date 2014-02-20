@@ -107,7 +107,7 @@ namespace Trainer.net.Control
             _waterMarkContainer.Height = Height; // Height should be the same as its parent
             _waterMarkContainer.Width = Width; // same goes for width and the parent
             _waterMarkContainer.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-                // makes sure that it resizes with the parent control
+            // makes sure that it resizes with the parent control
 
 
             if (ContainsFocus)
@@ -125,7 +125,7 @@ namespace Trainer.net.Control
             //Drawing the string into the panel 
             Graphics g = e.Graphics;
             g.DrawString(WaterMarkText, _waterMarkFont, _waterMarkBrush, new PointF(-2f, 1f));
-                //Take a look at that point
+            //Take a look at that point
             //The reason I'm using the panel at all, is because of this feature, that it has no limits
             //I started out with a label but that looked very very bad because of its paddings 
         }

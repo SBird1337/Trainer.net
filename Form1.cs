@@ -17,17 +17,17 @@ namespace Trainer.net
 {
     public partial class Form1 : Form
     {
-        private MoneyData _moneyData;
-        private readonly BindingList<string> _trainerclassNames = new BindingList<string>(); 
+        private const int TRAINER_CLASS_COUNT = 66; //TODO Move to Config File
         private readonly List<Configuration> _configurations = new List<Configuration>();
-        private TrainerEntry _currentEntry;
-        private HexEncoder _encoder;
+        private readonly List<TrainerEntry> _trainerEntries = new List<TrainerEntry>();
+        private readonly BindingList<string> _trainerclassNames = new BindingList<string>();
         private Configuration _configuration;
         private int _currentDeepness;
-        private StaticElements _statics;
-        private readonly List<TrainerEntry> _trainerEntries = new List<TrainerEntry>();
+        private TrainerEntry _currentEntry;
+        private HexEncoder _encoder;
+        private MoneyData _moneyData;
         private Rom _rom;
-        private const int TRAINER_CLASS_COUNT = 66; //TODO Move to Config File
+        private StaticElements _statics;
 
         public Form1()
         {
@@ -36,7 +36,7 @@ namespace Trainer.net
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            XmlSerializer deSerializer = new XmlSerializer(typeof(Configuration));
+            var deSerializer = new XmlSerializer(typeof (Configuration));
             if (!Directory.Exists(Constances.CONFIG_ROOT))
                 Directory.CreateDirectory(Constances.CONFIG_ROOT);
             string[] files = Directory.GetFiles(Constances.CONFIG_ROOT);
@@ -46,11 +46,14 @@ namespace Trainer.net
                 {
                     try
                     {
-                        _configurations.Add((Configuration)deSerializer.Deserialize(new FileStream(s, FileMode.Open)));
+                        _configurations.Add((Configuration) deSerializer.Deserialize(new FileStream(s, FileMode.Open)));
                     }
                     catch (InvalidOperationException)
                     {
-                        MessageBox.Show(string.Format("Error while reading XML Configuration File, your file \"{0}\" is corrupted.", s), Resources.Error_Global, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(
+                            string.Format(
+                                "Error while reading XML Configuration File, your file \"{0}\" is corrupted.", s),
+                            Resources.Error_Global, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         Close();
                     }
                 }
@@ -61,14 +64,13 @@ namespace Trainer.net
                 //var entry = new TrainerEntry(encoder, r);
                 //MessageBox.Show(entry.Name);
                 //MessageBox.Show(entry.PokemonData.Position.ToString("X"));
-
             }
             else
             {
-                MessageBox.Show(Resources.No_Configuration_English, Resources.Error_Global, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Resources.No_Configuration_English, Resources.Error_Global, MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
                 Close();
             }
-
         }
 
         private void cTextBox1_KeyPress(object sender, KeyPressEventArgs e)
@@ -87,13 +89,11 @@ namespace Trainer.net
             lblLangDyn.Text = @"???";
             lblVersionDyn.Text = @"???";
             lblNameDyn.Text = @"???";
-
         }
 
         private void openRomToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-            OpenFileDialog openFile = new OpenFileDialog { Filter = @"Gamboy Advance ROMs|*.gba" };
+            var openFile = new OpenFileDialog {Filter = @"Gamboy Advance ROMs|*.gba"};
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 UnloadAll();
@@ -101,7 +101,6 @@ namespace Trainer.net
                 try
                 {
                     r = new Rom(openFile.FileName);
-
                 }
                 catch (Exception ex)
                 {
@@ -110,13 +109,15 @@ namespace Trainer.net
                 }
                 if (_configurations.All(element => element.GameCode != r.Header.GameCode))
                 {
-                    MessageBox.Show(string.Format(Resources.ConfigurationNotFoundErrorEnglish, r.Header.GameCode), Resources.Error_Global,
+                    MessageBox.Show(string.Format(Resources.ConfigurationNotFoundErrorEnglish, r.Header.GameCode),
+                        Resources.Error_Global,
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 if (_configurations.Where((element => element.GameCode == r.Header.GameCode)).Count() != 1)
                 {
-                    MessageBox.Show(string.Format(Resources.RedundantConfigurationErrorEnglish, r.Header.GameCode), Resources.Error_Global,
+                    MessageBox.Show(string.Format(Resources.RedundantConfigurationErrorEnglish, r.Header.GameCode),
+                        Resources.Error_Global,
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -162,15 +163,14 @@ namespace Trainer.net
                 }
                 comClassname.DataSource = _trainerclassNames;
                 //comClassname.Items.AddRange(_trainerclassNames.ToArray());
-                
+
                 lstTrainers.SelectedItems.Clear();
                 lstTrainers.SelectedIndex = 0;
 
-                
 
                 grpTrainerSel.Enabled = true;
                 tbcEditor.Enabled = true;
-                
+
                 _rom = r;
             }
         }
@@ -190,11 +190,13 @@ namespace Trainer.net
             else
                 rdbMale.Checked = true;
             numMusic.Value = _currentEntry.Music;
-            if(_currentEntry.Sprite == numSprite.Value)
+            if (_currentEntry.Sprite == numSprite.Value)
                 numSprite_ValueChanged(numSprite, null);
             numSprite.Value = _currentEntry.Sprite;
             txtUnknown.Text = _currentEntry.UnknownOne.ToString("x");
-            numMoneyRate.Value = _currentEntry.TrainerClass < 0x30 ? _moneyData.MoneyValues[_currentEntry.TrainerClass] : _moneyData.LastValue;
+            numMoneyRate.Value = _currentEntry.TrainerClass < 0x30
+                ? _moneyData.MoneyValues[_currentEntry.TrainerClass]
+                : _moneyData.LastValue;
             comClassname.SelectedIndex = _currentEntry.TrainerClass;
             comItemOne.FormattingEnabled = false;
             comItemTwo.FormattingEnabled = false;
@@ -204,8 +206,6 @@ namespace Trainer.net
             comItemTwo.SelectedIndex = _currentEntry.ItemTwo;
             comItemThree.SelectedIndex = _currentEntry.ItemThree;
             comItemFour.SelectedIndex = _currentEntry.ItemFour;
-            
-
         }
 
         private void lstTrainers_SelectedIndexChanged(object sender, EventArgs e)
@@ -248,13 +248,13 @@ namespace Trainer.net
         {
             int index = lstTrainers.Items.OfType<string>()
                 .ToList()
-                .FindIndex(_currentDeepness + 1, element => element.ToLower().Remove(0, 6).StartsWith(txtSearch.Text.ToLower()));
+                .FindIndex(_currentDeepness + 1,
+                    element => element.ToLower().Remove(0, 6).StartsWith(txtSearch.Text.ToLower()));
             if (index != -1)
             {
                 lstTrainers.SelectedIndex = index;
                 _currentDeepness = index;
             }
-
         }
 
         private void comClassname_SelectedIndexChanged(object sender, EventArgs e)
@@ -269,7 +269,7 @@ namespace Trainer.net
 
         private void numSprite_ValueChanged(object sender, EventArgs e)
         {
-            picSprite.Image = _statics.Sprites[(int)numSprite.Value];
+            picSprite.Image = _statics.Sprites[(int) numSprite.Value];
             ColorPalette p = picSprite.Image.Palette;
             Color[] entries = p.Entries;
             entries[0] = Color.Transparent;

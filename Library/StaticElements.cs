@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Text;
 using System.Linq;
 using Single.Core;
 using Single.Core.Text;
@@ -11,12 +9,6 @@ namespace Trainer.net.Library
 {
     public class StaticElements
     {
-        public List<string> ItemNames { get; set; }
-        public List<string> PokemonNames { get; set; }
-        public List<string> AttackNames { get; set; }
-        public List<Image> Sprites { get; set; }
-        public List<Image> PokeSprites { get; set; }
-
         public StaticElements(Configuration config, Rom r, HexEncoder encoder)
         {
             ItemNames = new List<string>();
@@ -29,8 +21,8 @@ namespace Trainer.net.Library
                 ItemNames.Add(encoder.GetParsedString(RomStringHelper.ReadRomString(r)));
                 r.SetStreamOffset(r.CurrentPosition + (43 - ItemNames.Last().Length));
             }
-            List<uint> spritePointers = new List<uint>();
-            List<uint> palPointers = new List<uint>();
+            var spritePointers = new List<uint>();
+            var palPointers = new List<uint>();
             Sprites = new List<Image>();
             r.SetStreamOffset(config.SpritePointer);
             r.SetStreamOffset(r.ReadUInt32() & 0x1FFFFFF);
@@ -101,7 +93,12 @@ namespace Trainer.net.Library
                 AttackNames.Add(encoder.GetParsedString(RomStringHelper.ReadRomString(r)));
                 r.SetStreamOffset(r.CurrentPosition + 12 - AttackNames.Last().Count());
             }
-
         }
+
+        public List<string> ItemNames { get; set; }
+        public List<string> PokemonNames { get; set; }
+        public List<string> AttackNames { get; set; }
+        public List<Image> Sprites { get; set; }
+        public List<Image> PokeSprites { get; set; }
     }
 }

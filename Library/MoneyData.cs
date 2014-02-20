@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Single.Core;
 
 namespace Trainer.net.Library
 {
-
-
     public class MoneyData : IRomWritable
     {
-        public Dictionary<byte, byte> MoneyValues { get; set; }
-        public byte LastValue { get; set; }
-
         public MoneyData(Configuration config, Rom rom)
         {
             rom.SetStreamOffset(config.TrainerClassPointer);
@@ -30,17 +21,20 @@ namespace Trainer.net.Library
             LastValue = rom.ReadByte();
         }
 
+        public Dictionary<byte, byte> MoneyValues { get; set; }
+        public byte LastValue { get; set; }
+
         public byte[] GetRawData()
         {
-            MemoryStream ms = new MemoryStream();
-            BinaryWriter br = new BinaryWriter(ms);
+            var ms = new MemoryStream();
+            var br = new BinaryWriter(ms);
             foreach (byte id in MoneyValues.Keys)
             {
                 if (id < 0x3A)
                 {
                     br.Write(id);
                     br.Write(MoneyValues[id]);
-                    br.Write((ushort)0);
+                    br.Write((ushort) 0);
                 }
             }
             br.Write(0xFF);

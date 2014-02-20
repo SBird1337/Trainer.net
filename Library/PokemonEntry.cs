@@ -33,14 +33,14 @@ namespace Trainer.net.Library
             Position = offset;
         }
 
-        public int GetOriginalSize()
-        {
-            return _originalSize;
-        }
-
         public byte[] GetRawData()
         {
             throw new NotImplementedException(); //TODO Implement
+        }
+
+        public int GetOriginalSize()
+        {
+            return _originalSize;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Globalization;
 using System.Xml.Serialization;
-using System.Text;
+
 namespace Trainer.net
 {
     [Serializable]
@@ -25,7 +26,7 @@ namespace Trainer.net
 
         [XmlIgnore]
         public UInt32 ItemNamePointer { get; set; }
-       
+
         [XmlIgnore]
         public UInt32 TrainerClassNamePointer { get; set; }
 
@@ -50,7 +51,7 @@ namespace Trainer.net
             {
                 // convert hex representation back to int
                 TrainerPointer = uint.Parse(value.Remove(0, 2),
-                    System.Globalization.NumberStyles.HexNumber);
+                    NumberStyles.HexNumber);
             }
         }
 
@@ -66,7 +67,7 @@ namespace Trainer.net
             {
                 // convert hex representation back to int
                 PokemonNamePointer = uint.Parse(value.Remove(0, 2),
-                    System.Globalization.NumberStyles.HexNumber);
+                    NumberStyles.HexNumber);
             }
         }
 
@@ -82,7 +83,7 @@ namespace Trainer.net
             {
                 // convert hex representation back to int
                 TrainerClassPointer = uint.Parse(value.Remove(0, 2),
-                    System.Globalization.NumberStyles.HexNumber);
+                    NumberStyles.HexNumber);
             }
         }
 
@@ -98,7 +99,7 @@ namespace Trainer.net
             {
                 // convert hex representation back to int
                 ItemNamePointer = uint.Parse(value.Remove(0, 2),
-                    System.Globalization.NumberStyles.HexNumber);
+                    NumberStyles.HexNumber);
             }
         }
 
@@ -114,7 +115,7 @@ namespace Trainer.net
             {
                 // convert hex representation back to int
                 TrainerClassNamePointer = uint.Parse(value.Remove(0, 2),
-                    System.Globalization.NumberStyles.HexNumber);
+                    NumberStyles.HexNumber);
             }
         }
 
@@ -130,7 +131,7 @@ namespace Trainer.net
             {
                 // convert hex representation back to int
                 SpritePointer = uint.Parse(value.Remove(0, 2),
-                    System.Globalization.NumberStyles.HexNumber);
+                    NumberStyles.HexNumber);
             }
         }
 
@@ -146,7 +147,7 @@ namespace Trainer.net
             {
                 // convert hex representation back to int
                 PalettePointer = uint.Parse(value.Remove(0, 2),
-                    System.Globalization.NumberStyles.HexNumber);
+                    NumberStyles.HexNumber);
             }
         }
 
@@ -162,7 +163,7 @@ namespace Trainer.net
             {
                 // convert hex representation back to int
                 AttackNamePointer = uint.Parse(value.Remove(0, 2),
-                    System.Globalization.NumberStyles.HexNumber);
+                    NumberStyles.HexNumber);
             }
         }
 
@@ -178,7 +179,7 @@ namespace Trainer.net
             {
                 // convert hex representation back to int
                 PokemonSpritePointer = uint.Parse(value.Remove(0, 2),
-                    System.Globalization.NumberStyles.HexNumber);
+                    NumberStyles.HexNumber);
             }
         }
 
@@ -194,7 +195,7 @@ namespace Trainer.net
             {
                 // convert hex representation back to int
                 PokemonPalettePointer = uint.Parse(value.Remove(0, 2),
-                    System.Globalization.NumberStyles.HexNumber);
+                    NumberStyles.HexNumber);
             }
         }
 
