@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Xml.Serialization;
-
+using System.Text;
 namespace Trainer.net
 {
     [Serializable]
