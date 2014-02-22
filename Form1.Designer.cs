@@ -696,6 +696,7 @@
             this.chkDualBattle.TabIndex = 3;
             this.chkDualBattle.Text = "Dual Battle";
             this.chkDualBattle.UseVisualStyleBackColor = true;
+            this.chkDualBattle.CheckedChanged += new System.EventHandler(this.chkDualBattle_CheckedChanged);
             // 
             // numCountPokemon
             // 
@@ -746,6 +747,7 @@
             this.comAttackFour.Name = "comAttackFour";
             this.comAttackFour.Size = new System.Drawing.Size(143, 19);
             this.comAttackFour.TabIndex = 27;
+            this.comAttackFour.SelectedIndexChanged += new System.EventHandler(this.comAttackFour_SelectedIndexChanged);
             // 
             // comAttackTwo
             // 
@@ -755,6 +757,7 @@
             this.comAttackTwo.Name = "comAttackTwo";
             this.comAttackTwo.Size = new System.Drawing.Size(143, 19);
             this.comAttackTwo.TabIndex = 26;
+            this.comAttackTwo.SelectedIndexChanged += new System.EventHandler(this.comAttackTwo_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -808,6 +811,7 @@
             this.comAttackThree.Name = "comAttackThree";
             this.comAttackThree.Size = new System.Drawing.Size(143, 19);
             this.comAttackThree.TabIndex = 21;
+            this.comAttackThree.SelectedIndexChanged += new System.EventHandler(this.comAttackThree_SelectedIndexChanged);
             // 
             // comAttackOne
             // 
@@ -817,6 +821,7 @@
             this.comAttackOne.Name = "comAttackOne";
             this.comAttackOne.Size = new System.Drawing.Size(143, 19);
             this.comAttackOne.TabIndex = 20;
+            this.comAttackOne.SelectedIndexChanged += new System.EventHandler(this.comAttackOne_SelectedIndexChanged);
             // 
             // grpPokedata
             // 
@@ -866,6 +871,7 @@
             this.numAi.Name = "numAi";
             this.numAi.Size = new System.Drawing.Size(52, 18);
             this.numAi.TabIndex = 8;
+            this.numAi.ValueChanged += new System.EventHandler(this.numAi_ValueChanged);
             // 
             // comHeldItem
             // 
@@ -875,6 +881,7 @@
             this.comHeldItem.Name = "comHeldItem";
             this.comHeldItem.Size = new System.Drawing.Size(121, 19);
             this.comHeldItem.TabIndex = 7;
+            this.comHeldItem.SelectedIndexChanged += new System.EventHandler(this.comHeldItem_SelectedIndexChanged);
             // 
             // lblItem
             // 
@@ -893,6 +900,7 @@
             this.numLevel.Name = "numLevel";
             this.numLevel.Size = new System.Drawing.Size(52, 18);
             this.numLevel.TabIndex = 5;
+            this.numLevel.ValueChanged += new System.EventHandler(this.numLevel_ValueChanged);
             // 
             // lblLevel
             // 

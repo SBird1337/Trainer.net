@@ -5,6 +5,24 @@ namespace Trainer.net.Library
 {
     public class SinglePokemon : IRomWritable
     {
+        public static SinglePokemon BlankPokemon
+        {
+            get { return new SinglePokemon(0,0,0,0,0,0,0,0);}
+        }
+
+        public SinglePokemon(byte ai, byte level, ushort species, ushort item, ushort attack1, ushort attack2,
+            ushort attack3, ushort attack4)
+        {
+            AiLevel = ai;
+            Level = level;
+            Species = species;
+            Item = item;
+            Attack1 = attack1;
+            Attack2 = attack2;
+            Attack3 = attack3;
+            Attack4 = attack4;
+        }
+
         public SinglePokemon(Rom input, TrainerEntry trainerBase)
         {
             AiLevel = input.ReadByte();

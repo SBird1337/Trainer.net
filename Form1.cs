@@ -19,7 +19,7 @@ namespace Trainer.net
     {
         private const int TRAINER_CLASS_COUNT = 66; //TODO Move to Config File
         private readonly List<Configuration> _configurations = new List<Configuration>();
-        private readonly List<TrainerEntry> _trainerEntries = new List<TrainerEntry>();
+        private List<TrainerEntry> _trainerEntries = new List<TrainerEntry>();
         private readonly BindingList<string> _trainerclassNames = new BindingList<string>();
         private Configuration _configuration;
         private int _currentDeepness;
@@ -28,6 +28,7 @@ namespace Trainer.net
         private MoneyData _moneyData;
         private Rom _rom;
         private StaticElements _statics;
+        private bool _isLoaded;
 
         public Form1()
         {
@@ -80,11 +81,36 @@ namespace Trainer.net
 
         private void UnloadAll()
         {
+            comSpecies.Items.Clear();
+            comHeldItem.Items.Clear();
+            comAttackOne.Items.Clear();
+            comAttackTwo.Items.Clear();
+            comAttackThree.Items.Clear();
+            comAttackFour.Items.Clear();
+            _isLoaded = false;
+            tbcEditor.Enabled = false;
+            lstTrainers.Items.Clear();
             grpTrainerSel.Enabled = false;
             _statics = null;
+            _trainerEntries = new List<TrainerEntry>();
             _moneyData = null;
             _configuration = null;
             _rom = null;
+            comAttackOne.Items.Clear();
+            comAttackTwo.Items.Clear();
+            comAttackThree.Items.Clear();
+            comAttackFour.Items.Clear();
+            comItemOne.Items.Clear();
+            comItemTwo.Items.Clear();
+            comItemThree.Items.Clear();
+            comItemFour.Items.Clear();
+            txtId.Text = "";
+            txtName.Text = "";
+            rdbFemale.Checked = false;
+            rdbMale.Checked = false;
+            numSprite.Value = 0;
+            _trainerclassNames.Clear();
+            txtClassname.Text = "";
             lblCodeDyn.Text = @"???";
             lblLangDyn.Text = @"???";
             lblVersionDyn.Text = @"???";
@@ -162,16 +188,15 @@ namespace Trainer.net
                     r.SetStreamOffset(r.CurrentPosition + (12 - _trainerclassNames.Last().Length));
                 }
                 comClassname.DataSource = _trainerclassNames;
-                //comClassname.Items.AddRange(_trainerclassNames.ToArray());
-
-                lstTrainers.SelectedItems.Clear();
-                lstTrainers.SelectedIndex = 0;
-
 
                 grpTrainerSel.Enabled = true;
                 tbcEditor.Enabled = true;
 
                 _rom = r;
+
+                lstTrainers.SelectedItems.Clear();
+                _isLoaded = true;
+                lstTrainers.SelectedIndex = 0;
             }
         }
 
@@ -194,7 +219,7 @@ namespace Trainer.net
                 numSprite_ValueChanged(numSprite, null);
             numSprite.Value = _currentEntry.Sprite;
             txtUnknown.Text = _currentEntry.Unknown.ToString("x");
-            numMoneyRate.Value = _currentEntry.TrainerClass < 0x30
+            numMoneyRate.Value = _moneyData.MoneyValues.ContainsKey(_currentEntry.TrainerClass)
                 ? _moneyData.MoneyValues[_currentEntry.TrainerClass]
                 : _moneyData.LastValue;
             comClassname.SelectedIndex = _currentEntry.TrainerClass;
@@ -217,52 +242,62 @@ namespace Trainer.net
 
         private void LoadPokemon()
         {
-            SinglePokemon _currentPokemon = _currentEntry.PokemonData.Entries[(int)numCurrentPokemon.Value - 1];
+            SinglePokemon currentPokemon = _currentEntry.PokemonData.Entries[(int)numCurrentPokemon.Value - 1];
             txtPokemonOffset.Text = _currentEntry.PokemonData.Position.ToString("x").ToUpper();
-            comSpecies.SelectedIndex = _currentPokemon.Species;
-            comHeldItem.SelectedIndex = _currentPokemon.Item;
-            numAi.Value = _currentPokemon.AiLevel;
-            numLevel.Value = _currentPokemon.Level;
-            comAttackOne.SelectedIndex = _currentPokemon.Attack1;
-            comAttackTwo.SelectedIndex = _currentPokemon.Attack2;
-            comAttackThree.SelectedIndex = _currentPokemon.Attack3;
-            comAttackFour.SelectedIndex = _currentPokemon.Attack4;
+            comSpecies.SelectedIndex = currentPokemon.Species;
+            comHeldItem.SelectedIndex = currentPokemon.Item;
+            numAi.Value = currentPokemon.AiLevel;
+            numLevel.Value = currentPokemon.Level;
+            comAttackOne.SelectedIndex = currentPokemon.Attack1;
+            comAttackTwo.SelectedIndex = currentPokemon.Attack2;
+            comAttackThree.SelectedIndex = currentPokemon.Attack3;
+            comAttackFour.SelectedIndex = currentPokemon.Attack4;
 
         }
 
         private void lstTrainers_SelectedIndexChanged(object sender, EventArgs e)
         {
-            LoadTrainer();
+            if(_isLoaded)
+                LoadTrainer();
         }
 
         private void txtId_TextChanged(object sender, EventArgs e)
         {
-            int id;
-            if (txtId.Text.Length > 0)
+            if (_isLoaded)
             {
-                id = Convert.ToInt32(txtId.Text, 16);
-                if (id < 1)
-                    id = 1;
-                if (id > _configuration.TrainerCount + 1)
-                    id = _configuration.TrainerCount;
-                lstTrainers.SelectedIndex = id - 1;
+                int id;
+                if (txtId.Text.Length > 0)
+                {
+                    id = Convert.ToInt32(txtId.Text, 16);
+                    if (id < 1)
+                        id = 1;
+                    if (id > _configuration.TrainerCount + 1)
+                        id = _configuration.TrainerCount;
+                    lstTrainers.SelectedIndex = id - 1;
+                }
             }
         }
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            if (txtSearch.Text.Length > 0)
+            if (_isLoaded)
             {
-                _currentDeepness = 0;
-                TrySelectingSearch();
+                if (txtSearch.Text.Length > 0)
+                {
+                    _currentDeepness = 0;
+                    TrySelectingSearch();
+                }
             }
         }
 
         private void txtSearch_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            if (_isLoaded)
             {
-                TrySelectingSearch();
+                if (e.KeyCode == Keys.Enter)
+                {
+                    TrySelectingSearch();
+                }
             }
         }
 
@@ -281,40 +316,139 @@ namespace Trainer.net
 
         private void comClassname_SelectedIndexChanged(object sender, EventArgs e)
         {
-            txtClassname.Text = comClassname.SelectedItem.ToString();
+            if (_isLoaded)
+            {
+                if (_currentEntry != null)
+                {
+                    txtClassname.Text = comClassname.SelectedItem.ToString();
+                    numMoneyRate.Value = _moneyData.MoneyValues.ContainsKey((byte) comClassname.SelectedIndex)
+                        ? _moneyData.MoneyValues[(byte) comClassname.SelectedIndex]
+                        : _moneyData.LastValue;
+                }
+            }
         }
 
         private void cmbSave_Click(object sender, EventArgs e)
         {
             _trainerclassNames[comClassname.SelectedIndex] = txtClassname.Text;
+            _currentEntry.Music = (byte)numMusic.Value;
+            _currentEntry.PokeCount = (byte)numCountPokemon.Value;
+            _currentEntry.Name = txtName.Text;
+            _currentEntry.ItemOne = (ushort)comItemOne.SelectedIndex;
+            _currentEntry.ItemTwo = (ushort)comItemTwo.SelectedIndex;
+            _currentEntry.ItemThree = (ushort)comItemThree.SelectedIndex;
+            _currentEntry.ItemFour = (ushort)comItemFour.SelectedIndex;
+            _currentEntry.Sprite = (byte)numSprite.Value;
+            _currentEntry.TrainerClass = (byte) comClassname.SelectedIndex;
+            _currentEntry.IsFemale = rdbFemale.Checked;
+
+            int index = lstTrainers.SelectedIndex;
+            
+            lstTrainers.Items.Clear();
+            for (int i = 1; i < _trainerEntries.Count; ++i)
+            {
+                lstTrainers.Items.Add(string.Format("{0}   {1}", i.ToString("x3").ToUpper(), _trainerEntries[i].Name));
+            }
+            lstTrainers.SelectedIndex = index;
         }
 
         private void numSprite_ValueChanged(object sender, EventArgs e)
         {
-            picSprite.Image = _statics.Sprites[(int) numSprite.Value];
-            ColorPalette p = picSprite.Image.Palette;
-            Color[] entries = p.Entries;
-            entries[0] = Color.Transparent;
-            picSprite.Image.Palette = p;
+            if (_isLoaded)
+            {
+                picSprite.Image = _statics.Sprites[(int) numSprite.Value];
+                ColorPalette p = picSprite.Image.Palette;
+                Color[] entries = p.Entries;
+                entries[0] = Color.Transparent;
+                picSprite.Image.Palette = p;
+            }
         }
 
         private void comSpecies_SelectedIndexChanged(object sender, EventArgs e)
         {
-            picPokemon.Image = _statics.PokeSprites[comSpecies.SelectedIndex];
-            ColorPalette p = picPokemon.Image.Palette;
-            Color[] entries = p.Entries;
-            entries[0] = Color.Transparent;
-            picPokemon.Image.Palette = p;
+            if (_isLoaded)
+            {
+                _currentEntry.PokemonData.Entries[(int) numCurrentPokemon.Value - 1].Species =
+                    (ushort) comSpecies.SelectedIndex;
+                picPokemon.Image = _statics.PokeSprites[comSpecies.SelectedIndex];
+                ColorPalette p = picPokemon.Image.Palette;
+                Color[] entries = p.Entries;
+                entries[0] = Color.Transparent;
+                picPokemon.Image.Palette = p;
+            }
         }
 
         private void numCountPokemon_ValueChanged(object sender, EventArgs e)
         {
+            if (_isLoaded)
+            {
+                if (numCurrentPokemon.Value > numCountPokemon.Value)
+                    numCurrentPokemon.Value = numCountPokemon.Value;
+                while (_currentEntry.PokemonData.Entries.Count > numCountPokemon.Value)
+                    _currentEntry.PokemonData.Entries.Remove(_currentEntry.PokemonData.Entries.Last());
+                while (_currentEntry.PokemonData.Entries.Count < numCountPokemon.Value)
+                    _currentEntry.PokemonData.Entries.Add(SinglePokemon.BlankPokemon);
+                numCurrentPokemon.Maximum = numCountPokemon.Value;
+                if (numCountPokemon.Value < 2)
+                {
+                    chkDualBattle.Checked = false;
+                    chkDualBattle.Enabled = false;
+                }
+                else
+                {
+                    chkDualBattle.Enabled = true;
+                }
 
+                //_currentEntry.PokemonData.Entries.Add(Something);
+            }
         }
 
         private void numCurrentPokemon_ValueChanged(object sender, EventArgs e)
         {
-            LoadPokemon();
+            if (_isLoaded)
+            {
+                LoadPokemon();
+            }
+        }
+
+        private void numLevel_ValueChanged(object sender, EventArgs e)
+        {
+            _currentEntry.PokemonData.Entries[(int)numCurrentPokemon.Value - 1].Level = (byte)numLevel.Value;
+        }
+
+        private void comHeldItem_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _currentEntry.PokemonData.Entries[(int)numCurrentPokemon.Value - 1].Item = (ushort)comHeldItem.SelectedIndex;
+        }
+
+        private void numAi_ValueChanged(object sender, EventArgs e)
+        {
+            _currentEntry.PokemonData.Entries[(int)numCurrentPokemon.Value - 1].AiLevel = (byte)numAi.Value;
+        }
+
+        private void chkDualBattle_CheckedChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void comAttackOne_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _currentEntry.PokemonData.Entries[(int)numCurrentPokemon.Value - 1].Attack1 = (ushort)comAttackOne.SelectedIndex;
+        }
+
+        private void comAttackTwo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _currentEntry.PokemonData.Entries[(int)numCurrentPokemon.Value - 1].Attack2 = (ushort)comAttackTwo.SelectedIndex;
+        }
+
+        private void comAttackThree_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _currentEntry.PokemonData.Entries[(int)numCurrentPokemon.Value - 1].Attack3 = (ushort)comAttackThree.SelectedIndex;
+        }
+
+        private void comAttackFour_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _currentEntry.PokemonData.Entries[(int)numCurrentPokemon.Value - 1].Attack4 = (ushort)comAttackFour.SelectedIndex;
         }
     }
 }
