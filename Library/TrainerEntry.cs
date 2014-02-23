@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Policy;
 using Single.Core;
 using Single.Core.Text;
 
@@ -78,6 +77,8 @@ namespace Trainer.net.Library
                 _name = value;
             }
         }
+
+        public bool RequiresRepoint { get; set; }
 
         public UInt16 ItemOne { get; set; }
 

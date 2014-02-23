@@ -126,4 +126,10 @@
   <data name="RedundantConfigurationErrorEnglish" xml:space="preserve">
     <value>Multiple configuration files for {0} found, remove redundant files to fix.</value>
   </data>
+  <data name="Repoint Required" xml:space="preserve">
+    <value>Requires Repoint to be saved!</value>
+  </data>
+  <data name="RepointPending" xml:space="preserve">
+    <value>There is a repoint operation pending, please repoint the trainer data before you continue!</value>
+  </data>
 </root>

@@ -13,7 +13,7 @@
   <ItemCount>376</ItemCount>
   <SpriteCount>93</SpriteCount>
   <PokemonCount>412</PokemonCount>
-  <AttackCount>355</AttackCount>
+  <AttackCount>500</AttackCount>
   <PokemonSpritePointer>0x2CAE4</PokemonSpritePointer>
   <PokemonPalettePointer>0x6E75C</PokemonPalettePointer>
 </Configuration>

@@ -237,7 +237,9 @@ namespace Trainer.net
             numCurrentPokemon.Value = 1;
             numCountPokemon.Value = _currentEntry.PokeCount;
             chkDualBattle.Checked = _currentEntry.DualBattle;
+            _currentEntry.PokemonData = new PokemonEntry(_currentEntry.PokemonData.Position, _currentEntry);
             LoadPokemon();
+            CheckRepoint();
         }
 
         private void LoadPokemon()
@@ -263,41 +265,30 @@ namespace Trainer.net
 
         private void txtId_TextChanged(object sender, EventArgs e)
         {
-            if (_isLoaded)
-            {
-                int id;
-                if (txtId.Text.Length > 0)
-                {
-                    id = Convert.ToInt32(txtId.Text, 16);
-                    if (id < 1)
-                        id = 1;
-                    if (id > _configuration.TrainerCount + 1)
-                        id = _configuration.TrainerCount;
-                    lstTrainers.SelectedIndex = id - 1;
-                }
-            }
+            if (!_isLoaded) return;
+            if (txtId.Text.Length <= 0) return;
+            int id = Convert.ToInt32(txtId.Text, 16);
+            if (id < 1)
+                id = 1;
+            if (id > _configuration.TrainerCount + 1)
+                id = _configuration.TrainerCount;
+            lstTrainers.SelectedIndex = id - 1;
         }
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            if (_isLoaded)
-            {
-                if (txtSearch.Text.Length > 0)
-                {
-                    _currentDeepness = 0;
-                    TrySelectingSearch();
-                }
-            }
+            if (!_isLoaded) return;
+            if (txtSearch.Text.Length <= 0) return;
+            _currentDeepness = 0;
+            TrySelectingSearch();
         }
 
         private void txtSearch_KeyDown(object sender, KeyEventArgs e)
         {
-            if (_isLoaded)
+            if (!_isLoaded) return;
+            if (e.KeyCode == Keys.Enter)
             {
-                if (e.KeyCode == Keys.Enter)
-                {
-                    TrySelectingSearch();
-                }
+                TrySelectingSearch();
             }
         }
 
@@ -307,29 +298,31 @@ namespace Trainer.net
                 .ToList()
                 .FindIndex(_currentDeepness + 1,
                     element => element.ToLower().Remove(0, 6).StartsWith(txtSearch.Text.ToLower()));
-            if (index != -1)
-            {
-                lstTrainers.SelectedIndex = index;
-                _currentDeepness = index;
-            }
+            if (index == -1) return;
+            lstTrainers.SelectedIndex = index;
+            _currentDeepness = index;
         }
 
         private void comClassname_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (_isLoaded)
-            {
-                if (_currentEntry != null)
-                {
-                    txtClassname.Text = comClassname.SelectedItem.ToString();
-                    numMoneyRate.Value = _moneyData.MoneyValues.ContainsKey((byte) comClassname.SelectedIndex)
-                        ? _moneyData.MoneyValues[(byte) comClassname.SelectedIndex]
-                        : _moneyData.LastValue;
-                }
-            }
+            if (!_isLoaded) return;
+            if (_currentEntry == null) return;
+            txtClassname.Text = comClassname.SelectedItem.ToString();
+            numMoneyRate.Value = _moneyData.MoneyValues.ContainsKey((byte) comClassname.SelectedIndex)
+                ? _moneyData.MoneyValues[(byte) comClassname.SelectedIndex]
+                : _moneyData.LastValue;
         }
 
         private void cmbSave_Click(object sender, EventArgs e)
         {
+            if (_currentEntry.RequiresRepoint)
+            {
+                MessageBox.Show(
+                    Resources.RepointPending,
+                    Resources.Error_Global, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             _trainerclassNames[comClassname.SelectedIndex] = txtClassname.Text;
             _currentEntry.Music = (byte)numMusic.Value;
             _currentEntry.PokeCount = (byte)numCountPokemon.Value;
@@ -352,63 +345,63 @@ namespace Trainer.net
             lstTrainers.SelectedIndex = index;
         }
 
+        
+
         private void numSprite_ValueChanged(object sender, EventArgs e)
         {
-            if (_isLoaded)
-            {
-                picSprite.Image = _statics.Sprites[(int) numSprite.Value];
-                ColorPalette p = picSprite.Image.Palette;
-                Color[] entries = p.Entries;
-                entries[0] = Color.Transparent;
-                picSprite.Image.Palette = p;
-            }
+            if (!_isLoaded) return;
+            picSprite.Image = _statics.Sprites[(int) numSprite.Value];
+            ColorPalette p = picSprite.Image.Palette;
+            Color[] entries = p.Entries;
+            entries[0] = Color.Transparent;
+            picSprite.Image.Palette = p;
         }
 
         private void comSpecies_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (_isLoaded)
-            {
-                _currentEntry.PokemonData.Entries[(int) numCurrentPokemon.Value - 1].Species =
-                    (ushort) comSpecies.SelectedIndex;
-                picPokemon.Image = _statics.PokeSprites[comSpecies.SelectedIndex];
-                ColorPalette p = picPokemon.Image.Palette;
-                Color[] entries = p.Entries;
-                entries[0] = Color.Transparent;
-                picPokemon.Image.Palette = p;
-            }
+            if (!_isLoaded) return;
+            _currentEntry.PokemonData.Entries[(int) numCurrentPokemon.Value - 1].Species =
+                (ushort) comSpecies.SelectedIndex;
+            picPokemon.Image = _statics.PokeSprites[comSpecies.SelectedIndex];
+            ColorPalette p = picPokemon.Image.Palette;
+            Color[] entries = p.Entries;
+            entries[0] = Color.Transparent;
+            picPokemon.Image.Palette = p;
         }
 
         private void numCountPokemon_ValueChanged(object sender, EventArgs e)
         {
-            if (_isLoaded)
+            if (!_isLoaded) return;
+            if (numCurrentPokemon.Value > numCountPokemon.Value)
+                numCurrentPokemon.Value = numCountPokemon.Value;
+            while (_currentEntry.PokemonData.Entries.Count > numCountPokemon.Value)
+                _currentEntry.PokemonData.Entries.Remove(_currentEntry.PokemonData.Entries.Last());
+            while (_currentEntry.PokemonData.Entries.Count < numCountPokemon.Value)
+                _currentEntry.PokemonData.Entries.Add(SinglePokemon.BlankPokemon(_currentEntry));
+            numCurrentPokemon.Maximum = numCountPokemon.Value;
+            if (numCountPokemon.Value < 2)
             {
-                if (numCurrentPokemon.Value > numCountPokemon.Value)
-                    numCurrentPokemon.Value = numCountPokemon.Value;
-                while (_currentEntry.PokemonData.Entries.Count > numCountPokemon.Value)
-                    _currentEntry.PokemonData.Entries.Remove(_currentEntry.PokemonData.Entries.Last());
-                while (_currentEntry.PokemonData.Entries.Count < numCountPokemon.Value)
-                    _currentEntry.PokemonData.Entries.Add(SinglePokemon.BlankPokemon);
-                numCurrentPokemon.Maximum = numCountPokemon.Value;
-                if (numCountPokemon.Value < 2)
-                {
-                    chkDualBattle.Checked = false;
-                    chkDualBattle.Enabled = false;
-                }
-                else
-                {
-                    chkDualBattle.Enabled = true;
-                }
-
-                //_currentEntry.PokemonData.Entries.Add(Something);
+                chkDualBattle.Checked = false;
+                chkDualBattle.Enabled = false;
             }
+            else
+            {
+                chkDualBattle.Enabled = true;
+            }
+            CheckRepoint();
+            //_currentEntry.PokemonData.Entries.Add(Something);
+        }
+
+        private void CheckRepoint()
+        {
+            _currentEntry.RequiresRepoint = _currentEntry.PokemonData.GetSize() > _currentEntry.PokemonData.GetOriginalSize();
+            lblRepoint.Text = _currentEntry.RequiresRepoint ? Resources.Repoint_Required : "";
         }
 
         private void numCurrentPokemon_ValueChanged(object sender, EventArgs e)
         {
-            if (_isLoaded)
-            {
-                LoadPokemon();
-            }
+            if (!_isLoaded) return;
+            LoadPokemon();
         }
 
         private void numLevel_ValueChanged(object sender, EventArgs e)
@@ -419,6 +412,7 @@ namespace Trainer.net
         private void comHeldItem_SelectedIndexChanged(object sender, EventArgs e)
         {
             _currentEntry.PokemonData.Entries[(int)numCurrentPokemon.Value - 1].Item = (ushort)comHeldItem.SelectedIndex;
+            CheckRepoint();
         }
 
         private void numAi_ValueChanged(object sender, EventArgs e)
@@ -434,21 +428,25 @@ namespace Trainer.net
         private void comAttackOne_SelectedIndexChanged(object sender, EventArgs e)
         {
             _currentEntry.PokemonData.Entries[(int)numCurrentPokemon.Value - 1].Attack1 = (ushort)comAttackOne.SelectedIndex;
+            CheckRepoint();
         }
 
         private void comAttackTwo_SelectedIndexChanged(object sender, EventArgs e)
         {
             _currentEntry.PokemonData.Entries[(int)numCurrentPokemon.Value - 1].Attack2 = (ushort)comAttackTwo.SelectedIndex;
+            CheckRepoint();
         }
 
         private void comAttackThree_SelectedIndexChanged(object sender, EventArgs e)
         {
             _currentEntry.PokemonData.Entries[(int)numCurrentPokemon.Value - 1].Attack3 = (ushort)comAttackThree.SelectedIndex;
+            CheckRepoint();
         }
 
         private void comAttackFour_SelectedIndexChanged(object sender, EventArgs e)
         {
             _currentEntry.PokemonData.Entries[(int)numCurrentPokemon.Value - 1].Attack4 = (ushort)comAttackFour.SelectedIndex;
+            CheckRepoint();
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using Single.Core;
 
 namespace Trainer.net.Library
@@ -39,9 +38,9 @@ namespace Trainer.net.Library
             return Position;
         }
 
-        public void SetCurrentOffset(uint offset)
+        public void SetCurrentOffset(uint newOffset)
         {
-            Position = offset;
+            Position = newOffset;
         }
 
         public byte[] GetRawData()

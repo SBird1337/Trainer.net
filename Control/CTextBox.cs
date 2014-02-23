@@ -110,17 +110,7 @@ namespace Trainer.net.Control
             // makes sure that it resizes with the parent control
 
 
-            if (ContainsFocus)
-            {
-                //if focused use normal color
-                _waterMarkBrush = new SolidBrush(WaterMarkActiveColor);
-            }
-
-            else
-            {
-                //if not focused use not active color
-                _waterMarkBrush = new SolidBrush(WaterMarkColor);
-            }
+            _waterMarkBrush = ContainsFocus ? new SolidBrush(WaterMarkActiveColor) : new SolidBrush(WaterMarkColor);
 
             //Drawing the string into the panel 
             Graphics g = e.Graphics;

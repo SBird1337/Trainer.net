@@ -11,8 +11,7 @@ namespace Trainer.net.Library
     {
         public StaticElements(Configuration config, Rom r, HexEncoder encoder)
         {
-            ItemNames = new List<string>();
-            ItemNames.Add("---");
+            ItemNames = new List<string> {"---"};
             r.SetStreamOffset(config.ItemNamePointer);
             r.SetStreamOffset(r.ReadUInt32() & 0x1FFFFFF);
             r.SetStreamOffset(r.CurrentPosition + 0x2C);

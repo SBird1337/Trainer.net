@@ -95,5 +95,23 @@ namespace Trainer.net.Properties {
                 return ResourceManager.GetString("RedundantConfigurationErrorEnglish", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Requires Repoint to be saved! ähnelt.
+        /// </summary>
+        internal static string Repoint_Required {
+            get {
+                return ResourceManager.GetString("Repoint Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die There is a repoint operation pending, please repoint the trainer data before you continue! ähnelt.
+        /// </summary>
+        internal static string RepointPending {
+            get {
+                return ResourceManager.GetString("RepointPending", resourceCulture);
+            }
+        }
     }
 }

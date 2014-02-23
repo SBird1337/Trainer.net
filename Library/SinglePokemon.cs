@@ -5,14 +5,23 @@ namespace Trainer.net.Library
 {
     public class SinglePokemon : IRomWritable
     {
-        public static SinglePokemon BlankPokemon
+        private ushort _item;
+        private ushort _attack1;
+        private ushort _attack2;
+        private ushort _attack3;
+        private ushort _attack4;
+
+        private readonly TrainerEntry _trainerBase;
+
+        public static SinglePokemon BlankPokemon(TrainerEntry entry)
         {
-            get { return new SinglePokemon(0,0,0,0,0,0,0,0);}
+            return new SinglePokemon(0, 0, 0, 0, 0, 0, 0, 0, entry);
         }
 
         public SinglePokemon(byte ai, byte level, ushort species, ushort item, ushort attack1, ushort attack2,
-            ushort attack3, ushort attack4)
+            ushort attack3, ushort attack4, TrainerEntry trainerBase)
         {
+            _trainerBase = trainerBase;
             AiLevel = ai;
             Level = level;
             Species = species;
@@ -25,6 +34,7 @@ namespace Trainer.net.Library
 
         public SinglePokemon(Rom input, TrainerEntry trainerBase)
         {
+            _trainerBase = trainerBase;
             AiLevel = input.ReadByte();
             input.ReadByte();
             Level = input.ReadByte();
@@ -39,7 +49,7 @@ namespace Trainer.net.Library
                 Attack3 = input.ReadUInt16();
                 Attack4 = input.ReadUInt16();
             }
-            if(!(trainerBase.UsesCustomMoves && trainerBase.UsesCustomItems))
+            if (!(trainerBase.UsesCustomMoves && trainerBase.UsesCustomItems))
                 input.ReadUInt16();
         }
 
@@ -52,25 +62,83 @@ namespace Trainer.net.Library
             writer.Write(Level);
             writer.Write((byte)0);
             writer.Write(Species);
-            if(Item != 0)
+            if (_trainerBase.UsesCustomItems)
                 writer.Write(Item);
-            if (Attack1 != 0 && Attack2 != 0 && Attack3 != 0 && Attack4 != 0)
+            if (_trainerBase.UsesCustomMoves)
             {
                 writer.Write(Attack1);
                 writer.Write(Attack2);
                 writer.Write(Attack3);
                 writer.Write(Attack4);
             }
+            if ((_trainerBase.UsesCustomMoves && _trainerBase.UsesCustomItems))
+                writer.Write((ushort)0);
             return ms.ToArray();
         }
 
         public byte AiLevel { get; set; }
         public byte Level { get; set; }
         public ushort Species { get; set; }
-        public ushort Item { get; set; }
-        public ushort Attack1 { get; set; }
-        public ushort Attack2 { get; set; }
-        public ushort Attack3 { get; set; }
-        public ushort Attack4 { get; set; }
+        public ushort Item
+        {
+            get { return _item; }
+            set
+            {
+                _item = value;
+                ReCreateTrainer();
+            }
+        }
+        public ushort Attack1
+        {
+            get { return _attack1; }
+            set
+            {
+                _attack1 = value;
+                ReCreateTrainer();
+            }
+        }
+        public ushort Attack2
+        {
+            get { return _attack2; }
+            set
+            {
+                _attack2 = value;
+                ReCreateTrainer();
+            }
+        }
+        public ushort Attack3
+        {
+            get { return _attack3; }
+            set
+            {
+                _attack3 = value;
+                ReCreateTrainer();
+            }
+        }
+        public ushort Attack4
+        {
+            get { return _attack4; }
+            set
+            {
+                _attack4 = value;
+                ReCreateTrainer();
+            }
+        }
+
+        private void ReCreateTrainer()
+        {
+            if (_trainerBase.PokemonData != null)
+            {
+                _trainerBase.UsesCustomItems = false;
+                _trainerBase.UsesCustomMoves = false;
+                foreach (SinglePokemon pkmn in _trainerBase.PokemonData.Entries)
+                {
+                    if (pkmn.Attack1 != 0 || pkmn.Attack2 != 0 || pkmn.Attack3 != 0 || pkmn.Attack4 != 0)
+                        _trainerBase.UsesCustomMoves = true;
+                    if (pkmn.Item != 0)
+                        _trainerBase.UsesCustomItems = true;
+                }
+            }
+        }
     }
 }
