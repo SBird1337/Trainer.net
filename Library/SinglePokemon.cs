@@ -55,8 +55,8 @@ namespace Trainer.net.Library
 
         public byte[] GetRawData()
         {
-            MemoryStream ms = new MemoryStream();
-            BinaryWriter writer = new BinaryWriter(ms);
+            var ms = new MemoryStream();
+            var writer = new BinaryWriter(ms);
             writer.Write(AiLevel);
             writer.Write((byte)0);
             writer.Write(Level);
@@ -71,8 +71,8 @@ namespace Trainer.net.Library
                 writer.Write(Attack3);
                 writer.Write(Attack4);
             }
-            if ((_trainerBase.UsesCustomMoves && _trainerBase.UsesCustomItems))
-                writer.Write((ushort)0);
+            if (!(_trainerBase.UsesCustomMoves && _trainerBase.UsesCustomItems))
+                writer.Write((ushort)0xFFFF);
             return ms.ToArray();
         }
 

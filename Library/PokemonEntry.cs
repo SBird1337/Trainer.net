@@ -45,7 +45,7 @@ namespace Trainer.net.Library
 
         public byte[] GetRawData()
         {
-            List<byte> data = new List<byte>();
+            var data = new List<byte>();
             Entries.ForEach(element => data.AddRange(element.GetRawData()));
             return data.ToArray();
         }

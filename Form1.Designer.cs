@@ -501,9 +501,11 @@
             // 
             this.txtUnknown.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtUnknown.Location = new System.Drawing.Point(96, 93);
+            this.txtUnknown.MaxLength = 6;
             this.txtUnknown.Name = "txtUnknown";
             this.txtUnknown.Size = new System.Drawing.Size(58, 18);
             this.txtUnknown.TabIndex = 11;
+            this.txtUnknown.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUnknown_KeyPress);
             // 
             // txtPrize
             // 
@@ -975,6 +977,7 @@
             // 
             // cmbSave
             // 
+            this.cmbSave.Enabled = false;
             this.cmbSave.Location = new System.Drawing.Point(529, 308);
             this.cmbSave.Name = "cmbSave";
             this.cmbSave.Size = new System.Drawing.Size(75, 23);

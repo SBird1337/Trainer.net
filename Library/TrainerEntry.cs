@@ -17,7 +17,7 @@ namespace Trainer.net.Library
         {
             _encoder = encoder;
             Rom = rom;
-
+            Position = (uint)rom.CurrentPosition;
             byte dataStructure = rom.ReadByte();
             UsesCustomMoves = Convert.ToBoolean(dataStructure & 1);
             UsesCustomItems = Convert.ToBoolean(dataStructure & 2);
@@ -51,6 +51,7 @@ namespace Trainer.net.Library
         public bool UsesCustomMoves { get; set; }
         public byte TrainerClass { get; set; }
         public bool IsFemale { get; set; }
+        public UInt32 Position { get; set; }
 
         public Rom Rom { get; set; }
 
@@ -105,7 +106,7 @@ namespace Trainer.net.Library
                     (byte) (0 & ((Convert.ToByte(UsesCustomItems) << 1) & (Convert.ToByte(UsesCustomMoves))));
                 writer.Write(dataStructure);
                 writer.Write(TrainerClass);
-                writer.Write((byte) (Music & (Convert.ToByte(IsFemale) << 7)));
+                writer.Write((byte) (Music | (Convert.ToByte(IsFemale) << 7)));
                 writer.Write(Sprite);
                 writer.Write(BuildName());
                 writer.Write(ItemOne);

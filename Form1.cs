@@ -17,6 +17,7 @@ namespace Trainer.net
 {
     public partial class Form1 : Form
     {
+        private string _originalFile = "";
         private const int TRAINER_CLASS_COUNT = 66; //TODO Move to Config File
         private readonly List<Configuration> _configurations = new List<Configuration>();
         private List<TrainerEntry> _trainerEntries = new List<TrainerEntry>();
@@ -27,6 +28,7 @@ namespace Trainer.net
         private HexEncoder _encoder;
         private MoneyData _moneyData;
         private Rom _rom;
+        private bool _suspendUpdate;
         private StaticElements _statics;
         private bool _isLoaded;
 
@@ -37,7 +39,7 @@ namespace Trainer.net
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            var deSerializer = new XmlSerializer(typeof (Configuration));
+            var deSerializer = new XmlSerializer(typeof(Configuration));
             if (!Directory.Exists(Constances.CONFIG_ROOT))
                 Directory.CreateDirectory(Constances.CONFIG_ROOT);
             string[] files = Directory.GetFiles(Constances.CONFIG_ROOT);
@@ -47,7 +49,7 @@ namespace Trainer.net
                 {
                     try
                     {
-                        _configurations.Add((Configuration) deSerializer.Deserialize(new FileStream(s, FileMode.Open)));
+                        _configurations.Add((Configuration)deSerializer.Deserialize(new FileStream(s, FileMode.Open)));
                     }
                     catch (InvalidOperationException)
                     {
@@ -81,6 +83,15 @@ namespace Trainer.net
 
         private void UnloadAll()
         {
+            tbcEditor.SelectTab(tbcEditor.TabPages[0]);
+            _originalFile = "";
+            picSprite.Image = null;
+            txtTabId.Text = "";
+            txtUnknown.Text = "";
+            numMusic.Value = 0;
+            numMoneyRate.Value = 0;
+            grpTrainerSel.Enabled = false;
+            cmbSave.Enabled = false;
             comSpecies.Items.Clear();
             comHeldItem.Items.Clear();
             comAttackOne.Items.Clear();
@@ -119,7 +130,7 @@ namespace Trainer.net
 
         private void openRomToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var openFile = new OpenFileDialog {Filter = @"Gamboy Advance ROMs|*.gba"};
+            var openFile = new OpenFileDialog { Filter = @"Gamboy Advance ROMs|*.gba" };
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 UnloadAll();
@@ -127,6 +138,7 @@ namespace Trainer.net
                 try
                 {
                     r = new Rom(openFile.FileName);
+                    _originalFile = openFile.FileName;
                 }
                 catch (Exception ex)
                 {
@@ -174,7 +186,6 @@ namespace Trainer.net
                 comSpecies.Items.AddRange(_statics.PokemonNames.ToArray());
                 comHeldItem.Items.AddRange(_statics.ItemNames.ToArray());
                 numSprite.Maximum = _configuration.SpriteCount - 1;
-
                 comItemOne.Items.AddRange(_statics.ItemNames.ToArray());
                 comItemTwo.Items.AddRange(_statics.ItemNames.ToArray());
                 comItemThree.Items.AddRange(_statics.ItemNames.ToArray());
@@ -190,6 +201,7 @@ namespace Trainer.net
                 comClassname.DataSource = _trainerclassNames;
 
                 grpTrainerSel.Enabled = true;
+                cmbSave.Enabled = true;
                 tbcEditor.Enabled = true;
 
                 _rom = r;
@@ -237,6 +249,17 @@ namespace Trainer.net
             numCurrentPokemon.Value = 1;
             numCountPokemon.Value = _currentEntry.PokeCount;
             chkDualBattle.Checked = _currentEntry.DualBattle;
+
+            if (numCountPokemon.Value < 2)
+            {
+                chkDualBattle.Checked = false;
+                chkDualBattle.Enabled = false;
+            }
+            else
+            {
+                chkDualBattle.Enabled = true;
+            }
+
             _currentEntry.PokemonData = new PokemonEntry(_currentEntry.PokemonData.Position, _currentEntry);
             LoadPokemon();
             CheckRepoint();
@@ -259,8 +282,8 @@ namespace Trainer.net
 
         private void lstTrainers_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(_isLoaded)
-                LoadTrainer();
+            if (!_isLoaded || _suspendUpdate) return;
+            LoadTrainer();
         }
 
         private void txtId_TextChanged(object sender, EventArgs e)
@@ -308,8 +331,8 @@ namespace Trainer.net
             if (!_isLoaded) return;
             if (_currentEntry == null) return;
             txtClassname.Text = comClassname.SelectedItem.ToString();
-            numMoneyRate.Value = _moneyData.MoneyValues.ContainsKey((byte) comClassname.SelectedIndex)
-                ? _moneyData.MoneyValues[(byte) comClassname.SelectedIndex]
+            numMoneyRate.Value = _moneyData.MoneyValues.ContainsKey((byte)comClassname.SelectedIndex)
+                ? _moneyData.MoneyValues[(byte)comClassname.SelectedIndex]
                 : _moneyData.LastValue;
         }
 
@@ -324,6 +347,7 @@ namespace Trainer.net
             }
 
             _trainerclassNames[comClassname.SelectedIndex] = txtClassname.Text;
+            _currentEntry.Unknown = uint.Parse(txtUnknown.Text);
             _currentEntry.Music = (byte)numMusic.Value;
             _currentEntry.PokeCount = (byte)numCountPokemon.Value;
             _currentEntry.Name = txtName.Text;
@@ -332,25 +356,34 @@ namespace Trainer.net
             _currentEntry.ItemThree = (ushort)comItemThree.SelectedIndex;
             _currentEntry.ItemFour = (ushort)comItemFour.SelectedIndex;
             _currentEntry.Sprite = (byte)numSprite.Value;
-            _currentEntry.TrainerClass = (byte) comClassname.SelectedIndex;
+            _currentEntry.TrainerClass = (byte)comClassname.SelectedIndex;
             _currentEntry.IsFemale = rdbFemale.Checked;
-
-            int index = lstTrainers.SelectedIndex;
             
-            lstTrainers.Items.Clear();
-            for (int i = 1; i < _trainerEntries.Count; ++i)
-            {
-                lstTrainers.Items.Add(string.Format("{0}   {1}", i.ToString("x3").ToUpper(), _trainerEntries[i].Name));
-            }
-            lstTrainers.SelectedIndex = index;
+            _rom.SetStreamOffset(_currentEntry.Position);
+            _rom.WriteByteArray(_currentEntry.GetRawData());
+            _rom.SetStreamOffset(_currentEntry.PokemonData.Position);
+            _rom.WriteByteArray(_currentEntry.PokemonData.GetRawData());
+
+            _rom.Patch(_originalFile);
+            //int index = lstTrainers.SelectedIndex;
+            //lstTrainers.Items.Clear();
+            _suspendUpdate = true;
+            lstTrainers.Items[lstTrainers.SelectedIndex] = string.Format("{0}   {1}",
+                (lstTrainers.SelectedIndex + 1).ToString("x3").ToUpper(), _currentEntry.Name);
+            _suspendUpdate = false;
+            //for (int i = 1; i < _trainerEntries.Count; ++i)
+            //{
+            //    lstTrainers.Items.Add(string.Format("{0}   {1}", i.ToString("x3").ToUpper(), _trainerEntries[i].Name));
+            //}
+            //lstTrainers.SelectedIndex = index;
         }
 
-        
+
 
         private void numSprite_ValueChanged(object sender, EventArgs e)
         {
             if (!_isLoaded) return;
-            picSprite.Image = _statics.Sprites[(int) numSprite.Value];
+            picSprite.Image = _statics.Sprites[(int)numSprite.Value];
             ColorPalette p = picSprite.Image.Palette;
             Color[] entries = p.Entries;
             entries[0] = Color.Transparent;
@@ -360,8 +393,8 @@ namespace Trainer.net
         private void comSpecies_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!_isLoaded) return;
-            _currentEntry.PokemonData.Entries[(int) numCurrentPokemon.Value - 1].Species =
-                (ushort) comSpecies.SelectedIndex;
+            _currentEntry.PokemonData.Entries[(int)numCurrentPokemon.Value - 1].Species =
+                (ushort)comSpecies.SelectedIndex;
             picPokemon.Image = _statics.PokeSprites[comSpecies.SelectedIndex];
             ColorPalette p = picPokemon.Image.Palette;
             Color[] entries = p.Entries;
@@ -422,7 +455,7 @@ namespace Trainer.net
 
         private void chkDualBattle_CheckedChanged(object sender, EventArgs e)
         {
-            
+            _currentEntry.DualBattle = chkDualBattle.Checked;
         }
 
         private void comAttackOne_SelectedIndexChanged(object sender, EventArgs e)
@@ -447,6 +480,11 @@ namespace Trainer.net
         {
             _currentEntry.PokemonData.Entries[(int)numCurrentPokemon.Value - 1].Attack4 = (ushort)comAttackFour.SelectedIndex;
             CheckRepoint();
+        }
+
+        private void txtUnknown_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !(char.IsDigit(e.KeyChar)) && !char.IsControl(e.KeyChar);
         }
     }
 }
