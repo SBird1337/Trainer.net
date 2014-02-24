@@ -130,6 +130,15 @@
     <value>Requires Repoint to be saved!</value>
   </data>
   <data name="RepointPending" xml:space="preserve">
-    <value>There is a repoint operation pending, please repoint the trainer data before you continue!</value>
+    <value>There is a repoint operation pending, do you want to repoint the pokémon data according to the values specified in your configuration file?</value>
+  </data>
+  <data name="Information_Global" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="Success_English" xml:space="preserve">
+    <value>Trainer data saved to ROM successfully.</value>
+  </data>
+  <data name="About_English" xml:space="preserve">
+    <value>About</value>
   </data>
 </root>

@@ -340,10 +340,12 @@ namespace Trainer.net
         {
             if (_currentEntry.RequiresRepoint)
             {
-                MessageBox.Show(
-                    Resources.RepointPending,
-                    Resources.Error_Global, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                DialogResult result = MessageBox.Show(Resources.RepointPending, Resources.Information_Global,
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                if(result != DialogResult.Yes) return;
+                _rom.SetStreamOffset(_configuration.FreespaceStart);
+                _currentEntry.PokemonData.Position = _rom.GetFreeSpaceOffset(_currentEntry.PokemonData.GetSize(),
+                    _configuration.FreespaceByte, 1);
             }
 
             _trainerclassNames[comClassname.SelectedIndex] = txtClassname.Text;
@@ -371,6 +373,10 @@ namespace Trainer.net
             lstTrainers.Items[lstTrainers.SelectedIndex] = string.Format("{0}   {1}",
                 (lstTrainers.SelectedIndex + 1).ToString("x3").ToUpper(), _currentEntry.Name);
             _suspendUpdate = false;
+            CheckRepoint();
+            LoadTrainer();
+            MessageBox.Show(Resources.Success_English, Resources.Information_Global, MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
             //for (int i = 1; i < _trainerEntries.Count; ++i)
             //{
             //    lstTrainers.Items.Add(string.Format("{0}   {1}", i.ToString("x3").ToUpper(), _trainerEntries[i].Name));
@@ -485,6 +491,14 @@ namespace Trainer.net
         private void txtUnknown_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = !(char.IsDigit(e.KeyChar)) && !char.IsControl(e.KeyChar);
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(
+                string.Format("Version {0} of open Trainer.net, visit us on github for a copy of the source code. Editing on purpose",
+                    System.Reflection.Assembly.GetExecutingAssembly().GetName().Version), Resources.About_English, MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
         }
     }
 }

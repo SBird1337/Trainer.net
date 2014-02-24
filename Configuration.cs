@@ -39,6 +39,12 @@ namespace Trainer.net
         [XmlIgnore]
         public UInt32 PokemonPalettePointer { get; set; }
 
+        [XmlIgnore]
+        public UInt32 FreespaceStart { get; set; }
+
+        [XmlIgnore]
+        public byte FreespaceByte { get; set; }
+
         [XmlElement(ElementName = "TrainerPointer")]
         public string HexValue
         {
@@ -195,6 +201,38 @@ namespace Trainer.net
             {
                 // convert hex representation back to int
                 PokemonPalettePointer = uint.Parse(value.Remove(0, 2),
+                    NumberStyles.HexNumber);
+            }
+        }
+
+        [XmlElement(ElementName = "FreespaceStart")]
+        public string HexValue11
+        {
+            get
+            {
+                // convert int to hex representation
+                return "0x" + FreespaceStart.ToString("x");
+            }
+            set
+            {
+                // convert hex representation back to int
+                FreespaceStart = uint.Parse(value.Remove(0, 2),
+                    NumberStyles.HexNumber);
+            }
+        }
+
+        [XmlElement(ElementName = "FreespaceByte")]
+        public string HexValue12
+        {
+            get
+            {
+                // convert int to hex representation
+                return "0x" + FreespaceByte.ToString("x");
+            }
+            set
+            {
+                // convert hex representation back to int
+                FreespaceByte = byte.Parse(value.Remove(0, 2),
                     NumberStyles.HexNumber);
             }
         }

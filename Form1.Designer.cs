@@ -29,9 +29,7 @@
         private void InitializeComponent()
         {
             this.grpTrainerSel = new System.Windows.Forms.GroupBox();
-            this.txtSearch = new Trainer.net.Control.CTextBox();
             this.lstTrainers = new System.Windows.Forms.ListBox();
-            this.txtId = new Trainer.net.Control.CTextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openRomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,7 +78,6 @@
             this.grpAmount = new System.Windows.Forms.GroupBox();
             this.numCurrentPokemon = new System.Windows.Forms.NumericUpDown();
             this.grpOffset = new System.Windows.Forms.GroupBox();
-            this.cmbRepoint = new System.Windows.Forms.Button();
             this.txtPokemonOffset = new System.Windows.Forms.TextBox();
             this.chkDualBattle = new System.Windows.Forms.CheckBox();
             this.numCountPokemon = new System.Windows.Forms.NumericUpDown();
@@ -106,6 +103,9 @@
             this.lblSpecies = new System.Windows.Forms.Label();
             this.cmbSave = new System.Windows.Forms.Button();
             this.lblRepoint = new System.Windows.Forms.Label();
+            this.txtSearch = new Trainer.net.Control.CTextBox();
+            this.txtId = new Trainer.net.Control.CTextBox();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.grpTrainerSel.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.grpRomInfo.SuspendLayout();
@@ -143,21 +143,6 @@
             this.grpTrainerSel.TabStop = false;
             this.grpTrainerSel.Text = "Trainer Selection";
             // 
-            // txtSearch
-            // 
-            this.txtSearch.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.Location = new System.Drawing.Point(50, 148);
-            this.txtSearch.MaxLength = 11;
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(124, 18);
-            this.txtSearch.TabIndex = 4;
-            this.txtSearch.WaterMark = "Search Name...";
-            this.txtSearch.WaterMarkActiveForeColor = System.Drawing.Color.Silver;
-            this.txtSearch.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.WaterMarkForeColor = System.Drawing.Color.LightGray;
-            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
-            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
-            // 
             // lstTrainers
             // 
             this.lstTrainers.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -169,25 +154,11 @@
             this.lstTrainers.TabIndex = 3;
             this.lstTrainers.SelectedIndexChanged += new System.EventHandler(this.lstTrainers_SelectedIndexChanged);
             // 
-            // txtId
-            // 
-            this.txtId.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtId.Location = new System.Drawing.Point(6, 148);
-            this.txtId.MaxLength = 3;
-            this.txtId.Name = "txtId";
-            this.txtId.Size = new System.Drawing.Size(30, 18);
-            this.txtId.TabIndex = 3;
-            this.txtId.WaterMark = "ID";
-            this.txtId.WaterMarkActiveForeColor = System.Drawing.Color.Silver;
-            this.txtId.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtId.WaterMarkForeColor = System.Drawing.Color.LightGray;
-            this.txtId.TextChanged += new System.EventHandler(this.txtId_TextChanged);
-            this.txtId.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cTextBox1_KeyPress);
-            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(612, 24);
@@ -668,7 +639,7 @@
             this.grpAmount.Controls.Add(this.lblSlash);
             this.grpAmount.Location = new System.Drawing.Point(249, 6);
             this.grpAmount.Name = "grpAmount";
-            this.grpAmount.Size = new System.Drawing.Size(147, 147);
+            this.grpAmount.Size = new System.Drawing.Size(147, 135);
             this.grpAmount.TabIndex = 2;
             this.grpAmount.TabStop = false;
             this.grpAmount.Text = "Pokémon Amount";
@@ -694,23 +665,13 @@
             // 
             // grpOffset
             // 
-            this.grpOffset.Controls.Add(this.cmbRepoint);
             this.grpOffset.Controls.Add(this.txtPokemonOffset);
             this.grpOffset.Location = new System.Drawing.Point(6, 68);
             this.grpOffset.Name = "grpOffset";
-            this.grpOffset.Size = new System.Drawing.Size(135, 73);
+            this.grpOffset.Size = new System.Drawing.Size(135, 54);
             this.grpOffset.TabIndex = 4;
             this.grpOffset.TabStop = false;
             this.grpOffset.Text = "Offset";
-            // 
-            // cmbRepoint
-            // 
-            this.cmbRepoint.Location = new System.Drawing.Point(16, 44);
-            this.cmbRepoint.Name = "cmbRepoint";
-            this.cmbRepoint.Size = new System.Drawing.Size(100, 23);
-            this.cmbRepoint.TabIndex = 1;
-            this.cmbRepoint.Text = "Repoint Data";
-            this.cmbRepoint.UseVisualStyleBackColor = true;
             // 
             // txtPokemonOffset
             // 
@@ -994,6 +955,43 @@
             this.lblRepoint.Size = new System.Drawing.Size(0, 13);
             this.lblRepoint.TabIndex = 5;
             // 
+            // txtSearch
+            // 
+            this.txtSearch.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearch.Location = new System.Drawing.Point(50, 148);
+            this.txtSearch.MaxLength = 11;
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(124, 18);
+            this.txtSearch.TabIndex = 4;
+            this.txtSearch.WaterMark = "Search Name...";
+            this.txtSearch.WaterMarkActiveForeColor = System.Drawing.Color.Silver;
+            this.txtSearch.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearch.WaterMarkForeColor = System.Drawing.Color.LightGray;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
+            // 
+            // txtId
+            // 
+            this.txtId.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtId.Location = new System.Drawing.Point(6, 148);
+            this.txtId.MaxLength = 3;
+            this.txtId.Name = "txtId";
+            this.txtId.Size = new System.Drawing.Size(30, 18);
+            this.txtId.TabIndex = 3;
+            this.txtId.WaterMark = "ID";
+            this.txtId.WaterMarkActiveForeColor = System.Drawing.Color.Silver;
+            this.txtId.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtId.WaterMarkForeColor = System.Drawing.Color.LightGray;
+            this.txtId.TextChanged += new System.EventHandler(this.txtId_TextChanged);
+            this.txtId.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cTextBox1_KeyPress);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1005,7 +1003,9 @@
             this.Controls.Add(this.grpRomInfo);
             this.Controls.Add(this.grpTrainerSel);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -1101,7 +1101,6 @@
         private System.Windows.Forms.GroupBox grpAmount;
         private System.Windows.Forms.NumericUpDown numCurrentPokemon;
         private System.Windows.Forms.GroupBox grpOffset;
-        private System.Windows.Forms.Button cmbRepoint;
         private System.Windows.Forms.TextBox txtPokemonOffset;
         private System.Windows.Forms.CheckBox chkDualBattle;
         private System.Windows.Forms.NumericUpDown numCountPokemon;
@@ -1126,6 +1125,7 @@
         private System.Windows.Forms.Label lblSpecies;
         private System.Windows.Forms.PictureBox picPokemon;
         private System.Windows.Forms.Label lblRepoint;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
 
     }
 }

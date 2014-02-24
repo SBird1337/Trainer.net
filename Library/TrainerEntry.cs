@@ -103,7 +103,7 @@ namespace Trainer.net.Library
             {
                 var writer = new BinaryWriter(ms);
                 var dataStructure =
-                    (byte) (0 & ((Convert.ToByte(UsesCustomItems) << 1) & (Convert.ToByte(UsesCustomMoves))));
+                    (byte) (0 | ((Convert.ToByte(UsesCustomItems) << 1) | (Convert.ToByte(UsesCustomMoves))));
                 writer.Write(dataStructure);
                 writer.Write(TrainerClass);
                 writer.Write((byte) (Music | (Convert.ToByte(IsFemale) << 7)));

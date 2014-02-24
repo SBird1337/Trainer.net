@@ -13,7 +13,9 @@
   <ItemCount>376</ItemCount>
   <SpriteCount>93</SpriteCount>
   <PokemonCount>412</PokemonCount>
-  <AttackCount>500</AttackCount>
+  <AttackCount>355</AttackCount>
   <PokemonSpritePointer>0x2CAE4</PokemonSpritePointer>
   <PokemonPalettePointer>0x6E75C</PokemonPalettePointer>
+  <FreespaceStart>0xE50000</FreespaceStart>
+  <FreespaceByte>0xFF</FreespaceByte>
 </Configuration>

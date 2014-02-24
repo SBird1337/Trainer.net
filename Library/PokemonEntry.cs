@@ -6,7 +6,7 @@ namespace Trainer.net.Library
 {
     public class PokemonEntry : IRepointable
     {
-        private readonly int _originalSize;
+        private int _originalSize;
 
         public List<SinglePokemon> Entries = new List<SinglePokemon>(); 
 
@@ -41,6 +41,7 @@ namespace Trainer.net.Library
         public void SetCurrentOffset(uint newOffset)
         {
             Position = newOffset;
+            _originalSize = GetSize();
         }
 
         public byte[] GetRawData()

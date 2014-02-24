@@ -49,7 +49,7 @@ namespace Trainer.net.Library
                 Attack3 = input.ReadUInt16();
                 Attack4 = input.ReadUInt16();
             }
-            if (!(trainerBase.UsesCustomMoves && trainerBase.UsesCustomItems))
+            if ((!trainerBase.UsesCustomItems))
                 input.ReadUInt16();
         }
 
@@ -71,7 +71,7 @@ namespace Trainer.net.Library
                 writer.Write(Attack3);
                 writer.Write(Attack4);
             }
-            if (!(_trainerBase.UsesCustomMoves && _trainerBase.UsesCustomItems))
+            if ((!_trainerBase.UsesCustomItems))
                 writer.Write((ushort)0xFFFF);
             return ms.ToArray();
         }

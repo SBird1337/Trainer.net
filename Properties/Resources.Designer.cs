@@ -61,6 +61,15 @@ namespace Trainer.net.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die About ähnelt.
+        /// </summary>
+        internal static string About_English {
+            get {
+                return ResourceManager.GetString("About_English", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The configuration file for &quot;{0}&quot; was not found. ähnelt.
         /// </summary>
         internal static string ConfigurationNotFoundErrorEnglish {
@@ -75,6 +84,15 @@ namespace Trainer.net.Properties {
         internal static string Error_Global {
             get {
                 return ResourceManager.GetString("Error_Global", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Information ähnelt.
+        /// </summary>
+        internal static string Information_Global {
+            get {
+                return ResourceManager.GetString("Information_Global", resourceCulture);
             }
         }
         
@@ -106,11 +124,20 @@ namespace Trainer.net.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die There is a repoint operation pending, please repoint the trainer data before you continue! ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die There is a repoint operation pending, do you want to repoint the pokémon data according to the values specified in your configuration file? ähnelt.
         /// </summary>
         internal static string RepointPending {
             get {
                 return ResourceManager.GetString("RepointPending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Trainer data saved to ROM successfully. ähnelt.
+        /// </summary>
+        internal static string Success_English {
+            get {
+                return ResourceManager.GetString("Success_English", resourceCulture);
             }
         }
     }
