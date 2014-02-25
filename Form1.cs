@@ -18,7 +18,6 @@ namespace Trainer.net
     public partial class Form1 : Form
     {
         private string _originalFile = "";
-        private const int TRAINER_CLASS_COUNT = 66; //TODO Move to Config File
         private readonly List<Configuration> _configurations = new List<Configuration>();
         private List<TrainerEntry> _trainerEntries = new List<TrainerEntry>();
         private readonly BindingList<string> _trainerclassNames = new BindingList<string>();
@@ -205,7 +204,7 @@ namespace Trainer.net
                 _moneyData = new MoneyData(_configuration, r);
                 r.SetStreamOffset(_configuration.TrainerClassNamePointer);
                 r.SetStreamOffset(r.ReadUInt32() & 0x1FFFFFF);
-                for (int i = 0; i < TRAINER_CLASS_COUNT; ++i)
+                for (int i = 0; i < _configuration.TrainerClassCount; ++i)
                 {
                     byte[] readString = RomStringHelper.ReadRomString(r);
                     _trainerclassNames.Add(_encoder.GetParsedString(readString));

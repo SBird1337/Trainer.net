@@ -246,5 +246,7 @@ namespace Trainer.net
         public int PokemonCount { get; set; }
 
         public int AttackCount { get; set; }
+
+        public int TrainerClassCount { get; set; }
     }
 }

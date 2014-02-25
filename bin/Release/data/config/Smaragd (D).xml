@@ -18,4 +18,5 @@
   <PokemonPalettePointer>0x6E75C</PokemonPalettePointer>
   <FreespaceStart>0xE50000</FreespaceStart>
   <FreespaceByte>0xFF</FreespaceByte>
+  <TrainerClassCount>66</TrainerClassCount>
 </Configuration>
