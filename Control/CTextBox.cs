@@ -1,6 +1,4 @@
-﻿//Use it as you want :)
-
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -119,10 +117,8 @@ namespace Trainer.net.Control
 
         private void ThisHasFocus(object sender, EventArgs e)
         {
-            //if focused use focus color
             _waterMarkBrush = new SolidBrush(WaterMarkActiveColor);
 
-            //The watermark should not be drawn if the user has already written some text
             if (TextLength <= 0)
             {
                 RemoveWaterMark();
@@ -132,30 +128,24 @@ namespace Trainer.net.Control
 
         private void ThisWasLeaved(object sender, EventArgs e)
         {
-            //if the user has written something and left the control
             if (TextLength > 0)
             {
-                //Remove the watermark
                 RemoveWaterMark();
             }
             else
             {
-                //But if the user didn't write anything, Then redraw the control.
                 Invalidate();
             }
         }
 
         private void ThisTextChanged(object sender, EventArgs e)
         {
-            //If the text of the textbox is not empty
             if (TextLength > 0)
             {
-                //Remove the watermark
                 RemoveWaterMark();
             }
             else
             {
-                //But if the text is empty, draw the watermark again.
                 DrawWaterMark();
             }
         }
@@ -165,16 +155,13 @@ namespace Trainer.net.Control
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            //Draw the watermark even in design time
             DrawWaterMark();
         }
 
         protected override void OnInvalidated(InvalidateEventArgs e)
         {
             base.OnInvalidated(e);
-            //Check if there is a watermark
             if (_waterMarkContainer != null)
-                //if there is a watermark it should also be invalidated();
                 _waterMarkContainer.Invalidate();
         }
 

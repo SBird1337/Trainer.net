@@ -145,6 +145,18 @@ namespace Trainer.net
                     MessageBox.Show(ex.Message, Resources.Error_Global, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+                try
+                {
+                    r.Save(Path.GetDirectoryName(openFile.FileName) +
+                         string.Format("\\{0}.bak", Path.GetFileNameWithoutExtension(openFile.FileName)));
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        Resources.WarningBackupEnglish,
+                        Resources.WarningEnglish, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
                 if (_configurations.All(element => element.GameCode != r.Header.GameCode))
                 {
                     MessageBox.Show(string.Format(Resources.ConfigurationNotFoundErrorEnglish, r.Header.GameCode),
@@ -233,7 +245,7 @@ namespace Trainer.net
             numSprite.Value = _currentEntry.Sprite;
             txtUnknown.Text = _currentEntry.Unknown.ToString("x");
             numMoneyRate.Value = _moneyData[_currentEntry.TrainerClass];
-            if(comClassname.SelectedIndex == _currentEntry.TrainerClass)
+            if (comClassname.SelectedIndex == _currentEntry.TrainerClass)
                 comClassname_SelectedIndexChanged(null, null);
             else
                 comClassname.SelectedIndex = _currentEntry.TrainerClass;
@@ -245,6 +257,7 @@ namespace Trainer.net
             comItemTwo.SelectedIndex = _currentEntry.ItemTwo;
             comItemThree.SelectedIndex = _currentEntry.ItemThree;
             comItemFour.SelectedIndex = _currentEntry.ItemFour;
+            txtTrainerOffset.Text = _currentEntry.Position.ToString("x").ToUpper();
 
             //Load Pokemon Data
             numCurrentPokemon.Maximum = _currentEntry.PokeCount;
@@ -333,7 +346,7 @@ namespace Trainer.net
             if (!_isLoaded) return;
             if (_currentEntry == null) return;
             txtClassname.Text = comClassname.SelectedItem.ToString();
-            numMoneyRate.Value = _moneyData[(byte) comClassname.SelectedIndex];
+            numMoneyRate.Value = _moneyData[(byte)comClassname.SelectedIndex];
         }
 
         private void cmbSave_Click(object sender, EventArgs e)
@@ -342,7 +355,7 @@ namespace Trainer.net
             {
                 DialogResult result = MessageBox.Show(Resources.RepointPending, Resources.Information_Global,
                     MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                if(result != DialogResult.Yes) return;
+                if (result != DialogResult.Yes) return;
                 _rom.SetStreamOffset(_configuration.FreespaceStart);
                 _currentEntry.PokemonData.Position = _rom.GetFreeSpaceOffset(_currentEntry.PokemonData.GetSize(),
                     _configuration.FreespaceByte, 1);
@@ -360,7 +373,7 @@ namespace Trainer.net
             _currentEntry.Sprite = (byte)numSprite.Value;
             _currentEntry.TrainerClass = (byte)comClassname.SelectedIndex;
             _currentEntry.IsFemale = rdbFemale.Checked;
-            
+
             _rom.SetStreamOffset(_currentEntry.Position);
             _rom.WriteByteArray(_currentEntry.GetRawData());
             _rom.SetStreamOffset(_currentEntry.PokemonData.Position);

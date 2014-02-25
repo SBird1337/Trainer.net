@@ -140,5 +140,23 @@ namespace Trainer.net.Properties {
                 return ResourceManager.GetString("Success_English", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Could not create backup file - Working without a backup is not recommended, even though Trainer.net&apos;s main functionalities will work. Make sure any existing backup file is accessable with the tools current privileges. ähnelt.
+        /// </summary>
+        internal static string WarningBackupEnglish {
+            get {
+                return ResourceManager.GetString("WarningBackupEnglish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Warning ähnelt.
+        /// </summary>
+        internal static string WarningEnglish {
+            get {
+                return ResourceManager.GetString("WarningEnglish", resourceCulture);
+            }
+        }
     }
 }

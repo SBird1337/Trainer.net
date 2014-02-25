@@ -141,4 +141,10 @@
   <data name="About_English" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="WarningBackupEnglish" xml:space="preserve">
+    <value>Could not create backup file - Working without a backup is not recommended, even though Trainer.net's main functionalities will work. Make sure any existing backup file is accessable with the tools current privileges.</value>
+  </data>
+  <data name="WarningEnglish" xml:space="preserve">
+    <value>Warning</value>
+  </data>
 </root>
