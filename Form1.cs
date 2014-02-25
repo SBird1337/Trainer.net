@@ -195,8 +195,9 @@ namespace Trainer.net
                 r.SetStreamOffset(r.ReadUInt32() & 0x1FFFFFF);
                 for (int i = 0; i < TRAINER_CLASS_COUNT; ++i)
                 {
-                    _trainerclassNames.Add(_encoder.GetParsedString(RomStringHelper.ReadRomString(r)));
-                    r.SetStreamOffset(r.CurrentPosition + (12 - _trainerclassNames.Last().Length));
+                    byte[] readString = RomStringHelper.ReadRomString(r);
+                    _trainerclassNames.Add(_encoder.GetParsedString(readString));
+                    r.SetStreamOffset(r.CurrentPosition + (12 - readString.Length));
                 }
                 comClassname.DataSource = _trainerclassNames;
 
@@ -231,10 +232,11 @@ namespace Trainer.net
                 numSprite_ValueChanged(numSprite, null);
             numSprite.Value = _currentEntry.Sprite;
             txtUnknown.Text = _currentEntry.Unknown.ToString("x");
-            numMoneyRate.Value = _moneyData.MoneyValues.ContainsKey(_currentEntry.TrainerClass)
-                ? _moneyData.MoneyValues[_currentEntry.TrainerClass]
-                : _moneyData.LastValue;
-            comClassname.SelectedIndex = _currentEntry.TrainerClass;
+            numMoneyRate.Value = _moneyData[_currentEntry.TrainerClass];
+            if(comClassname.SelectedIndex == _currentEntry.TrainerClass)
+                comClassname_SelectedIndexChanged(null, null);
+            else
+                comClassname.SelectedIndex = _currentEntry.TrainerClass;
             comItemOne.FormattingEnabled = false;
             comItemTwo.FormattingEnabled = false;
             comItemThree.FormattingEnabled = false;
@@ -331,9 +333,7 @@ namespace Trainer.net
             if (!_isLoaded) return;
             if (_currentEntry == null) return;
             txtClassname.Text = comClassname.SelectedItem.ToString();
-            numMoneyRate.Value = _moneyData.MoneyValues.ContainsKey((byte)comClassname.SelectedIndex)
-                ? _moneyData.MoneyValues[(byte)comClassname.SelectedIndex]
-                : _moneyData.LastValue;
+            numMoneyRate.Value = _moneyData[(byte) comClassname.SelectedIndex];
         }
 
         private void cmbSave_Click(object sender, EventArgs e)
@@ -366,8 +366,21 @@ namespace Trainer.net
             _rom.SetStreamOffset(_currentEntry.PokemonData.Position);
             _rom.WriteByteArray(_currentEntry.PokemonData.GetRawData());
 
+            _rom.SetStreamOffset(_configuration.TrainerClassNamePointer);
+            _rom.SetStreamOffset(_rom.ReadUInt32() & 0x1FFFFFF);
+
+            _rom.SetStreamOffset(_rom.CurrentPosition + (comClassname.SelectedIndex * 13));
+            _rom.WriteByteArray(_encoder.GetParsedBytes(txtClassname.Text));
+            _rom.WriteByte(0xFF);
+
+            _rom.SetStreamOffset(_configuration.TrainerClassPointer);
+            _rom.SetStreamOffset(_rom.ReadUInt32() & 0x1FFFFFF);
+
+            _rom.WriteToRom(_moneyData);
+
+
             _rom.Patch(_originalFile);
-            //int index = lstTrainers.SelectedIndex;
+            //int index = lstTrainers.SelectedIndex;1
             //lstTrainers.Items.Clear();
             _suspendUpdate = true;
             lstTrainers.Items[lstTrainers.SelectedIndex] = string.Format("{0}   {1}",
@@ -496,7 +509,7 @@ namespace Trainer.net
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show(
-                string.Format("Version {0} of open Trainer.net, visit us on github for a copy of the source code. Editing on purpose",
+                string.Format("Version {0} of open Trainer.net, visit us on github for a copy of the source code.",
                     System.Reflection.Assembly.GetExecutingAssembly().GetName().Version), Resources.About_English, MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
         }

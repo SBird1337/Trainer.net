@@ -29,10 +29,13 @@
         private void InitializeComponent()
         {
             this.grpTrainerSel = new System.Windows.Forms.GroupBox();
+            this.txtSearch = new Trainer.net.Control.CTextBox();
             this.lstTrainers = new System.Windows.Forms.ListBox();
+            this.txtId = new Trainer.net.Control.CTextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openRomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.grpRomInfo = new System.Windows.Forms.GroupBox();
             this.lblVersionDyn = new System.Windows.Forms.Label();
             this.lblLangDyn = new System.Windows.Forms.Label();
@@ -103,9 +106,6 @@
             this.lblSpecies = new System.Windows.Forms.Label();
             this.cmbSave = new System.Windows.Forms.Button();
             this.lblRepoint = new System.Windows.Forms.Label();
-            this.txtSearch = new Trainer.net.Control.CTextBox();
-            this.txtId = new Trainer.net.Control.CTextBox();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.grpTrainerSel.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.grpRomInfo.SuspendLayout();
@@ -143,6 +143,21 @@
             this.grpTrainerSel.TabStop = false;
             this.grpTrainerSel.Text = "Trainer Selection";
             // 
+            // txtSearch
+            // 
+            this.txtSearch.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearch.Location = new System.Drawing.Point(50, 148);
+            this.txtSearch.MaxLength = 11;
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(124, 18);
+            this.txtSearch.TabIndex = 4;
+            this.txtSearch.WaterMark = "Search Name...";
+            this.txtSearch.WaterMarkActiveForeColor = System.Drawing.Color.Silver;
+            this.txtSearch.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearch.WaterMarkForeColor = System.Drawing.Color.LightGray;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
+            // 
             // lstTrainers
             // 
             this.lstTrainers.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -153,6 +168,21 @@
             this.lstTrainers.Size = new System.Drawing.Size(168, 114);
             this.lstTrainers.TabIndex = 3;
             this.lstTrainers.SelectedIndexChanged += new System.EventHandler(this.lstTrainers_SelectedIndexChanged);
+            // 
+            // txtId
+            // 
+            this.txtId.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtId.Location = new System.Drawing.Point(6, 148);
+            this.txtId.MaxLength = 3;
+            this.txtId.Name = "txtId";
+            this.txtId.Size = new System.Drawing.Size(30, 18);
+            this.txtId.TabIndex = 3;
+            this.txtId.WaterMark = "ID";
+            this.txtId.WaterMarkActiveForeColor = System.Drawing.Color.Silver;
+            this.txtId.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtId.WaterMarkForeColor = System.Drawing.Color.LightGray;
+            this.txtId.TextChanged += new System.EventHandler(this.txtId_TextChanged);
+            this.txtId.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cTextBox1_KeyPress);
             // 
             // menuStrip1
             // 
@@ -179,6 +209,13 @@
             this.openRomToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.openRomToolStripMenuItem.Text = "Open Rom";
             this.openRomToolStripMenuItem.Click += new System.EventHandler(this.openRomToolStripMenuItem_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // grpRomInfo
             // 
@@ -345,6 +382,7 @@
             // 
             this.txtClassname.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtClassname.Location = new System.Drawing.Point(6, 44);
+            this.txtClassname.MaxLength = 12;
             this.txtClassname.Name = "txtClassname";
             this.txtClassname.Size = new System.Drawing.Size(145, 18);
             this.txtClassname.TabIndex = 15;
@@ -955,43 +993,6 @@
             this.lblRepoint.Size = new System.Drawing.Size(0, 13);
             this.lblRepoint.TabIndex = 5;
             // 
-            // txtSearch
-            // 
-            this.txtSearch.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.Location = new System.Drawing.Point(50, 148);
-            this.txtSearch.MaxLength = 11;
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(124, 18);
-            this.txtSearch.TabIndex = 4;
-            this.txtSearch.WaterMark = "Search Name...";
-            this.txtSearch.WaterMarkActiveForeColor = System.Drawing.Color.Silver;
-            this.txtSearch.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.WaterMarkForeColor = System.Drawing.Color.LightGray;
-            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
-            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
-            // 
-            // txtId
-            // 
-            this.txtId.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtId.Location = new System.Drawing.Point(6, 148);
-            this.txtId.MaxLength = 3;
-            this.txtId.Name = "txtId";
-            this.txtId.Size = new System.Drawing.Size(30, 18);
-            this.txtId.TabIndex = 3;
-            this.txtId.WaterMark = "ID";
-            this.txtId.WaterMarkActiveForeColor = System.Drawing.Color.Silver;
-            this.txtId.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtId.WaterMarkForeColor = System.Drawing.Color.LightGray;
-            this.txtId.TextChanged += new System.EventHandler(this.txtId_TextChanged);
-            this.txtId.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cTextBox1_KeyPress);
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
-            this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1007,7 +1008,8 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.ShowIcon = false;
+            this.Text = "Trainer.net";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.grpTrainerSel.ResumeLayout(false);
             this.grpTrainerSel.PerformLayout();

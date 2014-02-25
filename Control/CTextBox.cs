@@ -97,27 +97,20 @@ namespace Trainer.net.Control
 
         private void waterMarkContainer_Click(object sender, EventArgs e)
         {
-            Focus(); //Makes sure you can click wherever you want on the control to gain focus
+            Focus();
         }
 
         private void waterMarkContainer_Paint(object sender, PaintEventArgs e)
         {
-            //Setting the watermark container up
-            _waterMarkContainer.Location = new Point(2, 0); // sets the location
-            _waterMarkContainer.Height = Height; // Height should be the same as its parent
-            _waterMarkContainer.Width = Width; // same goes for width and the parent
+            _waterMarkContainer.Location = new Point(2, 0);
+            _waterMarkContainer.Height = Height;
+            _waterMarkContainer.Width = Width;
             _waterMarkContainer.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            // makes sure that it resizes with the parent control
-
 
             _waterMarkBrush = ContainsFocus ? new SolidBrush(WaterMarkActiveColor) : new SolidBrush(WaterMarkColor);
 
-            //Drawing the string into the panel 
             Graphics g = e.Graphics;
             g.DrawString(WaterMarkText, _waterMarkFont, _waterMarkBrush, new PointF(-2f, 1f));
-            //Take a look at that point
-            //The reason I'm using the panel at all, is because of this feature, that it has no limits
-            //I started out with a label but that looked very very bad because of its paddings 
         }
 
         #endregion
