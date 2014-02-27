@@ -149,7 +149,7 @@ namespace Trainer.net
                     r.Save(Path.GetDirectoryName(openFile.FileName) +
                          string.Format("\\{0}.bak", Path.GetFileNameWithoutExtension(openFile.FileName)));
                 }
-                catch (Exception ex)
+                catch
                 {
                     MessageBox.Show(
                         Resources.WarningBackupEnglish,

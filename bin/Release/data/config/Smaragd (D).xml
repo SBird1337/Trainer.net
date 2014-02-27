@@ -16,7 +16,7 @@
   <AttackCount>355</AttackCount>
   <PokemonSpritePointer>0x2CAE4</PokemonSpritePointer>
   <PokemonPalettePointer>0x6E75C</PokemonPalettePointer>
-  <FreespaceStart>0xE50000</FreespaceStart>
+  <FreespaceStart>0xE3CF70</FreespaceStart>
   <FreespaceByte>0xFF</FreespaceByte>
   <TrainerClassCount>66</TrainerClassCount>
 </Configuration>
