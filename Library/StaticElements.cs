@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using Single.Core;
 using Single.Core.Text;
@@ -68,7 +69,7 @@ namespace Trainer.net.Library
             for (int i = 0; i < config.PokemonCount; ++i)
             {
                 PokeSprites.Add(Tileset.FromCompressedAddress(r, spritePointers[i])
-                    .ToBitmap(8, new Palette(r, palPointers[i], true)));
+                    .ToBitmap(8, new Palette(r, palPointers[i], true)).Clone(new Rectangle(0,0,64,64), PixelFormat.DontCare));
             }
 
             PokemonNames = new List<string>();
