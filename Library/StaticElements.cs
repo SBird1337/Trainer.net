@@ -69,7 +69,7 @@ namespace Trainer.net.Library
             for (int i = 0; i < config.PokemonCount; ++i)
             {
                 PokeSprites.Add(Tileset.FromCompressedAddress(r, spritePointers[i])
-                    .ToBitmap(8, new Palette(r, palPointers[i], true)).Clone(new Rectangle(0,0,64,64), PixelFormat.DontCare));
+                    .ToBitmap(8, new Palette(r, palPointers[i], true)).Clone(new Rectangle(0,0,64,64), PixelFormat.DontCare)); //Quick and dirty
             }
 
             PokemonNames = new List<string>();
