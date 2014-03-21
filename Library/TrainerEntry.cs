@@ -26,8 +26,9 @@ namespace Trainer.net.Library
             IsFemale = Convert.ToBoolean(genderMusic & 128);
             _music = (byte) (genderMusic & 127);
             Sprite = rom.ReadByte();
-            Name = encoder.GetParsedString(RomStringHelper.ReadRomString(rom));
-            rom.SetStreamOffset(rom.CurrentPosition + (12 - Name.Length - 1));
+            byte[] sequence = RomStringHelper.ReadRomString(rom);
+            Name = encoder.GetParsedString(sequence);
+            rom.SetStreamOffset(rom.CurrentPosition + (12 - sequence.Length - 1));
             ItemOne = rom.ReadUInt16();
             ItemTwo = rom.ReadUInt16();
             ItemThree = rom.ReadUInt16();
@@ -130,7 +131,7 @@ namespace Trainer.net.Library
         {
             List<byte> output = _encoder.GetParsedBytes(Name).ToList();
             output.Add(0xFF);
-            for (int i = 0; i < 12 - _name.Length - 1; ++i)
+            while(output.Count() < 12)
                 output.Add(0);
             return output.ToArray();
         }

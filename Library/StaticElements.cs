@@ -18,8 +18,9 @@ namespace Trainer.net.Library
             r.SetStreamOffset(r.CurrentPosition + 0x2C);
             for (int i = 0; i < config.ItemCount; ++i)
             {
-                ItemNames.Add(encoder.GetParsedString(RomStringHelper.ReadRomString(r)));
-                r.SetStreamOffset(r.CurrentPosition + (43 - ItemNames.Last().Length));
+                byte[] sequence = RomStringHelper.ReadRomString(r);
+                ItemNames.Add(encoder.GetParsedString(sequence));
+                r.SetStreamOffset(r.CurrentPosition + (43 - sequence.Length));
             }
             var spritePointers = new List<uint>();
             var palPointers = new List<uint>();

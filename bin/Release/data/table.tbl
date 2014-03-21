@@ -79,4 +79,5 @@ F4=<ae>
 F5=<oe>
 F6=<ue>
 FE=<BR>
-5453=PKMN
+\s[54, 53]=PKMN
+\s[55, 56, 57, 58, 59]=POKERIEGEL
