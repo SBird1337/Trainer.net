@@ -80,8 +80,9 @@ namespace Trainer.net.Library
 
             for (int i = 0; i < config.PokemonCount; ++i)
             {
-                PokemonNames.Add(encoder.GetParsedString(RomStringHelper.ReadRomString(r)));
-                r.SetStreamOffset(r.CurrentPosition + 10 - PokemonNames.Last().Count());
+                byte[] sequence = RomStringHelper.ReadRomString(r);
+                PokemonNames.Add(encoder.GetParsedString(sequence));
+                r.SetStreamOffset(r.CurrentPosition + 10 - sequence.Length);
             }
 
             AttackNames = new List<string>();
