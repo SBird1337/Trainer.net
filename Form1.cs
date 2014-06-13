@@ -427,6 +427,7 @@ namespace Trainer.net
             _currentEntry.PokemonData.Entries[(int)numCurrentPokemon.Value - 1].Species =
                 (ushort)comSpecies.SelectedIndex;
             picPokemon.Image = _statics.PokeSprites[comSpecies.SelectedIndex];
+            if (picPokemon.Image.Palette.Entries.Length <= 0) return;
             ColorPalette p = picPokemon.Image.Palette;
             Color[] entries = p.Entries;
             entries[0] = Color.Transparent;
@@ -524,6 +525,11 @@ namespace Trainer.net
                 string.Format("Version {0} of open Trainer.net, visit us on github for a copy of the source code.",
                     System.Reflection.Assembly.GetExecutingAssembly().GetName().Version), Resources.About_English, MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
+        }
+
+        private void cmbRepoint_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

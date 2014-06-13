@@ -106,6 +106,16 @@ namespace Trainer.net.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Red_Cross {
+            get {
+                object obj = ResourceManager.GetObject("Red_Cross", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Multiple configuration files for {0} found, remove redundant files to fix. ähnelt.
         /// </summary>
         internal static string RedundantConfigurationErrorEnglish {
@@ -119,7 +129,7 @@ namespace Trainer.net.Properties {
         /// </summary>
         internal static string Repoint_Required {
             get {
-                return ResourceManager.GetString("Repoint Required", resourceCulture);
+                return ResourceManager.GetString("Repoint_Required", resourceCulture);
             }
         }
         

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Trainer.net.Library
     {
         public StaticElements(Configuration config, Rom r, HexEncoder encoder)
         {
-            ItemNames = new List<string> {"---"};
+            ItemNames = new List<string> { "---" };
             r.SetStreamOffset(config.ItemNamePointer);
             r.SetStreamOffset(r.ReadUInt32() & 0x1FFFFFF);
             r.SetStreamOffset(r.CurrentPosition + 0x2C);
@@ -41,8 +42,16 @@ namespace Trainer.net.Library
             }
             for (int i = 0; i < config.SpriteCount; ++i)
             {
-                Sprites.Add(Tileset.FromCompressedAddress(r, spritePointers[i])
-                    .ToBitmap(8, new Palette(r, palPointers[i], true)));
+                try
+                {
+                    Sprites.Add(Tileset.FromCompressedAddress(r, spritePointers[i])
+                        .ToBitmap(8, new Palette(r, palPointers[i], true)));
+                }
+                catch
+                {
+                    Sprites.Add(Properties.Resources.Red_Cross);
+                }
+
             }
 
             spritePointers.Clear();
@@ -69,8 +78,16 @@ namespace Trainer.net.Library
 
             for (int i = 0; i < config.PokemonCount; ++i)
             {
-                PokeSprites.Add(Tileset.FromCompressedAddress(r, spritePointers[i])
-                    .ToBitmap(8, new Palette(r, palPointers[i], true)).Clone(new Rectangle(0,0,64,64), PixelFormat.DontCare)); //Quick and dirty
+                try
+                {
+                    PokeSprites.Add(Tileset.FromCompressedAddress(r, spritePointers[i])
+                        .ToBitmap(8, new Palette(r, palPointers[i], true)).Clone(new Rectangle(0, 0, 64, 64), PixelFormat.DontCare)); //Quick and dirty
+                }
+                catch
+                {
+                    PokeSprites.Add(Properties.Resources.Red_Cross);
+                }
+
             }
 
             PokemonNames = new List<string>();
