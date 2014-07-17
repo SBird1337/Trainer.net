@@ -68,6 +68,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmInput.cs" />
     <Compile Include="Library\MoneyData.cs" />
     <Compile Include="Library\PokemonEntry.cs" />
     <Compile Include="Library\SinglePokemon.cs" />

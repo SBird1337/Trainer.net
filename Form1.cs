@@ -231,6 +231,7 @@ namespace Trainer.net
 
         private void LoadTrainer()
         {
+            lbl_status.Text = string.Empty;
             GetCurrentTrainerEntry();
             txtTabId.Text = (lstTrainers.SelectedIndex + 1).ToString("x3");
             txtName.Text = _currentEntry.Name;
@@ -357,7 +358,7 @@ namespace Trainer.net
                 if (result != DialogResult.Yes) return;
                 _rom.SetStreamOffset(_configuration.FreespaceStart);
                 _currentEntry.PokemonData.Position = _rom.GetFreeSpaceOffset(_currentEntry.PokemonData.GetSize(),
-                    _configuration.FreespaceByte, 1);
+                    _configuration.FreespaceByte, 4);
             }
 
             _trainerclassNames[comClassname.SelectedIndex] = txtClassname.Text;
@@ -400,8 +401,8 @@ namespace Trainer.net
             _suspendUpdate = false;
             CheckRepoint();
             LoadTrainer();
-            MessageBox.Show(Resources.Success_English, Resources.Information_Global, MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
+            lbl_status.ForeColor = Color.Green;
+            lbl_status.Text = Resources.Success_English;
             //for (int i = 1; i < _trainerEntries.Count; ++i)
             //{
             //    lstTrainers.Items.Add(string.Format("{0}   {1}", i.ToString("x3").ToUpper(), _trainerEntries[i].Name));
@@ -527,9 +528,32 @@ namespace Trainer.net
                 MessageBoxIcon.Information);
         }
 
-        private void cmbRepoint_Click(object sender, EventArgs e)
+        private void cmbRepoint_Click_1(object sender, EventArgs e)
         {
-
+            uint offset = 0;
+            string result = "";
+            if (FormHelper.InputBox("Repoint", "Enter manual offset (Hexadecimal representation)", ref result) == DialogResult.OK)
+            {
+                try
+                {
+                    offset = Convert.ToUInt32(result, 16);
+                }
+                catch (FormatException ex)
+                {
+                    MessageBox.Show("Illegal Characters found, make sure to only use correct hexadecimal characters without hex specifier", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                if (
+                    MessageBox.Show(
+                        "The file needs to be saved, any data at your given offset will be overwritten, do you wish to proceed?",
+                        "Repoint", MessageBoxButtons.YesNo, MessageBoxIcon.None) == DialogResult.Yes)
+                {
+                    _currentEntry.PokemonData.Position = offset;
+                    _currentEntry.RequiresRepoint = false;
+                    cmbSave_Click(null, null);
+                }
+                
+            }
         }
     }
 }

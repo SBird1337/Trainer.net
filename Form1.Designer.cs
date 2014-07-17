@@ -29,9 +29,7 @@
         private void InitializeComponent()
         {
             this.grpTrainerSel = new System.Windows.Forms.GroupBox();
-            this.txtSearch = new Trainer.net.Control.CTextBox();
             this.lstTrainers = new System.Windows.Forms.ListBox();
-            this.txtId = new Trainer.net.Control.CTextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openRomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -106,6 +104,9 @@
             this.lblSpecies = new System.Windows.Forms.Label();
             this.cmbSave = new System.Windows.Forms.Button();
             this.lblRepoint = new System.Windows.Forms.Label();
+            this.lbl_status = new System.Windows.Forms.Label();
+            this.txtSearch = new Trainer.net.Control.CTextBox();
+            this.txtId = new Trainer.net.Control.CTextBox();
             this.cmbRepoint = new System.Windows.Forms.Button();
             this.grpTrainerSel.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -144,21 +145,6 @@
             this.grpTrainerSel.TabStop = false;
             this.grpTrainerSel.Text = "Trainer Selection";
             // 
-            // txtSearch
-            // 
-            this.txtSearch.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.Location = new System.Drawing.Point(50, 148);
-            this.txtSearch.MaxLength = 11;
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(124, 18);
-            this.txtSearch.TabIndex = 4;
-            this.txtSearch.WaterMark = "Search Name...";
-            this.txtSearch.WaterMarkActiveForeColor = System.Drawing.Color.Silver;
-            this.txtSearch.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.WaterMarkForeColor = System.Drawing.Color.LightGray;
-            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
-            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
-            // 
             // lstTrainers
             // 
             this.lstTrainers.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -169,21 +155,6 @@
             this.lstTrainers.Size = new System.Drawing.Size(168, 114);
             this.lstTrainers.TabIndex = 3;
             this.lstTrainers.SelectedIndexChanged += new System.EventHandler(this.lstTrainers_SelectedIndexChanged);
-            // 
-            // txtId
-            // 
-            this.txtId.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtId.Location = new System.Drawing.Point(6, 148);
-            this.txtId.MaxLength = 3;
-            this.txtId.Name = "txtId";
-            this.txtId.Size = new System.Drawing.Size(30, 18);
-            this.txtId.TabIndex = 3;
-            this.txtId.WaterMark = "ID";
-            this.txtId.WaterMarkActiveForeColor = System.Drawing.Color.Silver;
-            this.txtId.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtId.WaterMarkForeColor = System.Drawing.Color.LightGray;
-            this.txtId.TextChanged += new System.EventHandler(this.txtId_TextChanged);
-            this.txtId.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cTextBox1_KeyPress);
             // 
             // menuStrip1
             // 
@@ -996,21 +967,60 @@
             this.lblRepoint.Size = new System.Drawing.Size(0, 13);
             this.lblRepoint.TabIndex = 5;
             // 
+            // lbl_status
+            // 
+            this.lbl_status.AutoSize = true;
+            this.lbl_status.Location = new System.Drawing.Point(195, 313);
+            this.lbl_status.Name = "lbl_status";
+            this.lbl_status.Size = new System.Drawing.Size(0, 13);
+            this.lbl_status.TabIndex = 6;
+            // 
+            // txtSearch
+            // 
+            this.txtSearch.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearch.Location = new System.Drawing.Point(50, 148);
+            this.txtSearch.MaxLength = 11;
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(124, 18);
+            this.txtSearch.TabIndex = 4;
+            this.txtSearch.WaterMark = "Search Name...";
+            this.txtSearch.WaterMarkActiveForeColor = System.Drawing.Color.Silver;
+            this.txtSearch.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearch.WaterMarkForeColor = System.Drawing.Color.LightGray;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
+            // 
+            // txtId
+            // 
+            this.txtId.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtId.Location = new System.Drawing.Point(6, 148);
+            this.txtId.MaxLength = 3;
+            this.txtId.Name = "txtId";
+            this.txtId.Size = new System.Drawing.Size(30, 18);
+            this.txtId.TabIndex = 3;
+            this.txtId.WaterMark = "ID";
+            this.txtId.WaterMarkActiveForeColor = System.Drawing.Color.Silver;
+            this.txtId.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtId.WaterMarkForeColor = System.Drawing.Color.LightGray;
+            this.txtId.TextChanged += new System.EventHandler(this.txtId_TextChanged);
+            this.txtId.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cTextBox1_KeyPress);
+            // 
             // cmbRepoint
             // 
-            this.cmbRepoint.Location = new System.Drawing.Point(16, 41);
+            this.cmbRepoint.Location = new System.Drawing.Point(16, 43);
             this.cmbRepoint.Name = "cmbRepoint";
             this.cmbRepoint.Size = new System.Drawing.Size(100, 23);
             this.cmbRepoint.TabIndex = 1;
             this.cmbRepoint.Text = "Repoint";
             this.cmbRepoint.UseVisualStyleBackColor = true;
-            this.cmbRepoint.Click += new System.EventHandler(this.cmbRepoint_Click);
+            this.cmbRepoint.Click += new System.EventHandler(this.cmbRepoint_Click_1);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(612, 340);
+            this.Controls.Add(this.lbl_status);
             this.Controls.Add(this.lblRepoint);
             this.Controls.Add(this.cmbSave);
             this.Controls.Add(this.tbcEditor);
@@ -1141,6 +1151,7 @@
         private System.Windows.Forms.PictureBox picPokemon;
         private System.Windows.Forms.Label lblRepoint;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.Label lbl_status;
         private System.Windows.Forms.Button cmbRepoint;
 
     }
