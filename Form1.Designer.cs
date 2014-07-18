@@ -105,9 +105,9 @@
             this.cmbSave = new System.Windows.Forms.Button();
             this.lblRepoint = new System.Windows.Forms.Label();
             this.lbl_status = new System.Windows.Forms.Label();
+            this.cmbRepoint = new System.Windows.Forms.Button();
             this.txtSearch = new Trainer.net.Control.CTextBox();
             this.txtId = new Trainer.net.Control.CTextBox();
-            this.cmbRepoint = new System.Windows.Forms.Button();
             this.grpTrainerSel.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.grpRomInfo.SuspendLayout();
@@ -975,6 +975,16 @@
             this.lbl_status.Size = new System.Drawing.Size(0, 13);
             this.lbl_status.TabIndex = 6;
             // 
+            // cmbRepoint
+            // 
+            this.cmbRepoint.Location = new System.Drawing.Point(16, 43);
+            this.cmbRepoint.Name = "cmbRepoint";
+            this.cmbRepoint.Size = new System.Drawing.Size(100, 23);
+            this.cmbRepoint.TabIndex = 1;
+            this.cmbRepoint.Text = "Repoint";
+            this.cmbRepoint.UseVisualStyleBackColor = true;
+            this.cmbRepoint.Click += new System.EventHandler(this.cmbRepoint_Click_1);
+            // 
             // txtSearch
             // 
             this.txtSearch.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1004,16 +1014,6 @@
             this.txtId.WaterMarkForeColor = System.Drawing.Color.LightGray;
             this.txtId.TextChanged += new System.EventHandler(this.txtId_TextChanged);
             this.txtId.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cTextBox1_KeyPress);
-            // 
-            // cmbRepoint
-            // 
-            this.cmbRepoint.Location = new System.Drawing.Point(16, 43);
-            this.cmbRepoint.Name = "cmbRepoint";
-            this.cmbRepoint.Size = new System.Drawing.Size(100, 23);
-            this.cmbRepoint.TabIndex = 1;
-            this.cmbRepoint.Text = "Repoint";
-            this.cmbRepoint.UseVisualStyleBackColor = true;
-            this.cmbRepoint.Click += new System.EventHandler(this.cmbRepoint_Click_1);
             // 
             // Form1
             // 

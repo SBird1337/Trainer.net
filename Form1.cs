@@ -231,8 +231,11 @@ namespace Trainer.net
 
         private void LoadTrainer()
         {
+            
             lbl_status.Text = string.Empty;
             GetCurrentTrainerEntry();
+            _rom.SetStreamOffset(_currentEntry.Position);
+            _currentEntry = new TrainerEntry(_encoder,_rom);
             txtTabId.Text = (lstTrainers.SelectedIndex + 1).ToString("x3");
             txtName.Text = _currentEntry.Name;
             if (_currentEntry.IsFemale)
