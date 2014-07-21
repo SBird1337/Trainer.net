@@ -558,5 +558,21 @@ namespace Trainer.net
                 
             }
         }
+
+        private void txtClassname_Validating(object sender, CancelEventArgs e)
+        {
+            byte[] encBytes = _encoder.GetParsedBytes(txtClassname.Text);
+            string s = txtClassname.Text;
+            if (encBytes.Length > 12)
+            {
+                while (_encoder.GetParsedBytes(s).Length > 12)
+                {
+                    s = s.Substring(0, s.Length - 1);
+                    while (!_encoder.IsValidPString(s))
+                        s = s.Substring(0, s.Length - 1);
+                }
+                txtClassname.Text = s;
+            }
+        }
     }
 }

@@ -79,6 +79,7 @@
             this.grpAmount = new System.Windows.Forms.GroupBox();
             this.numCurrentPokemon = new System.Windows.Forms.NumericUpDown();
             this.grpOffset = new System.Windows.Forms.GroupBox();
+            this.cmbRepoint = new System.Windows.Forms.Button();
             this.txtPokemonOffset = new System.Windows.Forms.TextBox();
             this.chkDualBattle = new System.Windows.Forms.CheckBox();
             this.numCountPokemon = new System.Windows.Forms.NumericUpDown();
@@ -105,7 +106,6 @@
             this.cmbSave = new System.Windows.Forms.Button();
             this.lblRepoint = new System.Windows.Forms.Label();
             this.lbl_status = new System.Windows.Forms.Label();
-            this.cmbRepoint = new System.Windows.Forms.Button();
             this.txtSearch = new Trainer.net.Control.CTextBox();
             this.txtId = new Trainer.net.Control.CTextBox();
             this.grpTrainerSel.SuspendLayout();
@@ -354,10 +354,11 @@
             // 
             this.txtClassname.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtClassname.Location = new System.Drawing.Point(6, 44);
-            this.txtClassname.MaxLength = 12;
+            this.txtClassname.MaxLength = 0;
             this.txtClassname.Name = "txtClassname";
             this.txtClassname.Size = new System.Drawing.Size(145, 18);
             this.txtClassname.TabIndex = 15;
+            this.txtClassname.Validating += new System.ComponentModel.CancelEventHandler(this.txtClassname_Validating);
             // 
             // comClassname
             // 
@@ -684,6 +685,16 @@
             this.grpOffset.TabStop = false;
             this.grpOffset.Text = "Offset";
             // 
+            // cmbRepoint
+            // 
+            this.cmbRepoint.Location = new System.Drawing.Point(16, 43);
+            this.cmbRepoint.Name = "cmbRepoint";
+            this.cmbRepoint.Size = new System.Drawing.Size(100, 23);
+            this.cmbRepoint.TabIndex = 1;
+            this.cmbRepoint.Text = "Repoint";
+            this.cmbRepoint.UseVisualStyleBackColor = true;
+            this.cmbRepoint.Click += new System.EventHandler(this.cmbRepoint_Click_1);
+            // 
             // txtPokemonOffset
             // 
             this.txtPokemonOffset.Enabled = false;
@@ -974,16 +985,6 @@
             this.lbl_status.Name = "lbl_status";
             this.lbl_status.Size = new System.Drawing.Size(0, 13);
             this.lbl_status.TabIndex = 6;
-            // 
-            // cmbRepoint
-            // 
-            this.cmbRepoint.Location = new System.Drawing.Point(16, 43);
-            this.cmbRepoint.Name = "cmbRepoint";
-            this.cmbRepoint.Size = new System.Drawing.Size(100, 23);
-            this.cmbRepoint.TabIndex = 1;
-            this.cmbRepoint.Text = "Repoint";
-            this.cmbRepoint.UseVisualStyleBackColor = true;
-            this.cmbRepoint.Click += new System.EventHandler(this.cmbRepoint_Click_1);
             // 
             // txtSearch
             // 
