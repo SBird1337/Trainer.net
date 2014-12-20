@@ -364,6 +364,8 @@ namespace Trainer.net
                     _configuration.FreespaceByte, 4);
             }
 
+            _moneyData[(byte)comClassname.SelectedIndex] = (byte)numMoneyRate.Value;
+
             _trainerclassNames[comClassname.SelectedIndex] = txtClassname.Text;
             _currentEntry.Unknown = uint.Parse(txtUnknown.Text);
             _currentEntry.Music = (byte)numMusic.Value;
@@ -376,6 +378,8 @@ namespace Trainer.net
             _currentEntry.Sprite = (byte)numSprite.Value;
             _currentEntry.TrainerClass = (byte)comClassname.SelectedIndex;
             _currentEntry.IsFemale = rdbFemale.Checked;
+
+            
 
             _rom.SetStreamOffset(_currentEntry.Position);
             _rom.WriteByteArray(_currentEntry.GetRawData());

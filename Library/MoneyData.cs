@@ -14,9 +14,14 @@ namespace Trainer.net.Library
         {
             get
             {
+                return _moneyValues.ContainsKey(index) ? _moneyValues[index] : _lastValue;
+            }
+            set
+            {
                 if (_moneyValues.ContainsKey(index))
-                    return _moneyValues[index];
-                return _lastValue;
+                    _moneyValues[index] = value;
+                else
+                    _moneyValues.Add(index, value);
             }
         }
 
