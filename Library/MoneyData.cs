@@ -5,10 +5,12 @@ using Single.Core;
 
 namespace Trainer.net.Library
 {
-    public class MoneyData : IRomWritable
+    public class MoneyData : IRepointable
     {
         private readonly byte _lastValue;
         private readonly Dictionary<byte, byte> _moneyValues;
+        private int _originalSize;
+        private uint _currentOffset;
 
         public byte this[byte index]
         {
@@ -28,7 +30,8 @@ namespace Trainer.net.Library
         public MoneyData(Configuration config, Rom rom)
         {
             rom.SetStreamOffset(config.TrainerClassPointer);
-            rom.SetStreamOffset(rom.ReadUInt32() & 0x1FFFFFF);
+            _currentOffset = rom.ReadUInt32() & 0x1FFFFFF;
+            rom.SetStreamOffset(_currentOffset);
             byte currentId = rom.ReadByte();
             _moneyValues = new Dictionary<byte, byte>();
             while (currentId != 0xFF)
@@ -38,6 +41,7 @@ namespace Trainer.net.Library
                 currentId = rom.ReadByte();
             }
             _lastValue = rom.ReadByte();
+            _originalSize = GetSize();
         }
 
         
@@ -55,6 +59,27 @@ namespace Trainer.net.Library
             br.Write((byte)0xFF);
             br.Write(_lastValue);
             return ms.ToArray();
+        }
+
+        public int GetSize()
+        {
+            return GetRawData().Length;
+        }
+
+        public uint GetCurrentOffset()
+        {
+            return _currentOffset;
+        }
+
+        public void SetCurrentOffset(uint newOffset)
+        {
+            _currentOffset = newOffset;
+            _originalSize = GetSize();
+        }
+
+        public int GetOriginalSize()
+        {
+            return _originalSize;
         }
     }
 }

@@ -393,10 +393,11 @@ namespace Trainer.net
             _rom.WriteByteArray(_encoder.GetParsedBytes(txtClassname.Text));
             _rom.WriteByte(0xFF);
 
-            _rom.SetStreamOffset(_configuration.TrainerClassPointer);
-            _rom.SetStreamOffset(_rom.ReadUInt32() & 0x1FFFFFF);
-
-            _rom.WriteToRom(_moneyData);
+            if (_moneyData.GetSize() > _moneyData.GetOriginalSize())
+            {
+                _rom.SetStreamOffset(_configuration.FreespaceStart);
+                _rom.Repoint(_moneyData, _rom.GetFreeSpaceOffset(_moneyData.GetSize(), _configuration.FreespaceByte, 4));
+            }
 
 
             _rom.Patch(_originalFile);
@@ -537,10 +538,10 @@ namespace Trainer.net
 
         private void cmbRepoint_Click_1(object sender, EventArgs e)
         {
-            uint offset = 0;
             string result = "";
             if (FormHelper.InputBox("Repoint", "Enter manual offset (Hexadecimal representation)", ref result) == DialogResult.OK)
             {
+                uint offset = 0;
                 try
                 {
                     offset = Convert.ToUInt32(result, 16);
@@ -559,7 +560,6 @@ namespace Trainer.net
                     _currentEntry.RequiresRepoint = false;
                     cmbSave_Click(null, null);
                 }
-                
             }
         }
 
