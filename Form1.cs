@@ -399,6 +399,8 @@ namespace Trainer.net
                 _rom.Repoint(_moneyData, _rom.GetFreeSpaceOffset(_moneyData.GetSize(), _configuration.FreespaceByte, 4));
             }
 
+            _rom.SetStreamOffset(_moneyData.GetCurrentOffset());
+            _rom.WriteToRom(_moneyData);
 
             _rom.Patch(_originalFile);
             //int index = lstTrainers.SelectedIndex;1

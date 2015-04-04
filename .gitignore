@@ -27,3 +27,5 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 *.vssscc
 $tf*/
+bin/Release/Trainer.net.exe
+bin/Release/Trainer.net.pdb

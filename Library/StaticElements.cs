@@ -81,7 +81,8 @@ namespace Trainer.net.Library
                 try
                 {
                     PokeSprites.Add(Tileset.FromCompressedAddress(r, spritePointers[i])
-                        .ToBitmap(8, new Palette(r, palPointers[i], true)).Clone(new Rectangle(0, 0, 64, 64), PixelFormat.DontCare)); //Quick and dirty
+                        .ToBitmap(8, new Palette(r, palPointers[i], true)));
+                    //.Clone(new Rectangle(0, 0, 64, 64), PixelFormat.DontCare)); //Quick and dirty
                 }
                 catch
                 {
