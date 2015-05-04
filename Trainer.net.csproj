@@ -61,6 +61,12 @@
     <Compile Include="Control\CTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="dlgEditAi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="dlgEditAi.Designer.cs">
+      <DependentUpon>dlgEditAi.cs</DependentUpon>
+    </Compile>
     <Compile Include="Extensions.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -69,6 +75,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmInput.cs" />
+    <Compile Include="Library\ShortBitField.cs" />
     <Compile Include="Library\MoneyData.cs" />
     <Compile Include="Library\PokemonEntry.cs" />
     <Compile Include="Library\SinglePokemon.cs" />
@@ -76,6 +83,9 @@
     <Compile Include="Library\TrainerEntry.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="dlgEditAi.resx">
+      <DependentUpon>dlgEditAi.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

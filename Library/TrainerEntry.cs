@@ -36,7 +36,10 @@ namespace Trainer.net.Library
             DualBattle = Convert.ToBoolean(rom.ReadByte());
             rom.SetStreamOffset(rom.CurrentPosition + 3);
 
-            Unknown = rom.ReadUInt32();
+            AiValue = rom.ReadUInt16();
+
+            rom.SetStreamOffset(rom.CurrentPosition + 2);
+
             PokeCount = rom.ReadByte();
             rom.SetStreamOffset(rom.CurrentPosition + 3);
 
@@ -82,17 +85,17 @@ namespace Trainer.net.Library
 
         public bool RequiresRepoint { get; set; }
 
-        public UInt16 ItemOne { get; set; }
+        public ushort ItemOne { get; set; }
 
-        public UInt16 ItemTwo { get; set; }
+        public ushort ItemTwo { get; set; }
 
-        public UInt16 ItemThree { get; set; }
+        public ushort ItemThree { get; set; }
 
-        public UInt16 ItemFour { get; set; }
+        public ushort ItemFour { get; set; }
 
         public bool DualBattle { get; set; }
 
-        public UInt32 Unknown { get; set; }
+        public ushort AiValue { get; set; }
 
         public byte PokeCount { get; set; }
 
@@ -116,7 +119,8 @@ namespace Trainer.net.Library
                 writer.Write(ItemFour);
                 writer.Write(Convert.ToByte(DualBattle));
                 writer.Write(new byte[] { 0, 0, 0 });
-                writer.Write(Unknown);
+                writer.Write(AiValue);
+                writer.Write(new byte[] {0,0});
                 writer.Write(PokeCount);
                 writer.Write(new byte[] { 0, 0, 0 });
                 if(PokemonData != null)

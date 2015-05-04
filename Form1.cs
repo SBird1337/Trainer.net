@@ -38,6 +38,8 @@ namespace Trainer.net
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            tltInfo.SetToolTip(txtUnknown, "Double click to edit AI value.");
+            
             var deSerializer = new XmlSerializer(typeof(Configuration));
             if (!Directory.Exists(Constances.CONFIG_ROOT))
                 Directory.CreateDirectory(Constances.CONFIG_ROOT);
@@ -246,7 +248,7 @@ namespace Trainer.net
             if (_currentEntry.Sprite == numSprite.Value)
                 numSprite_ValueChanged(numSprite, null);
             numSprite.Value = _currentEntry.Sprite;
-            txtUnknown.Text = _currentEntry.Unknown.ToString("x");
+            txtUnknown.Text = _currentEntry.AiValue.ToString("X");
             numMoneyRate.Value = _moneyData[_currentEntry.TrainerClass];
             if (comClassname.SelectedIndex == _currentEntry.TrainerClass)
                 comClassname_SelectedIndexChanged(null, null);
@@ -367,7 +369,7 @@ namespace Trainer.net
             _moneyData[(byte)comClassname.SelectedIndex] = (byte)numMoneyRate.Value;
 
             _trainerclassNames[comClassname.SelectedIndex] = txtClassname.Text;
-            _currentEntry.Unknown = uint.Parse(txtUnknown.Text);
+            _currentEntry.AiValue = ushort.Parse(txtUnknown.Text, NumberStyles.HexNumber);
             _currentEntry.Music = (byte)numMusic.Value;
             _currentEntry.PokeCount = (byte)numCountPokemon.Value;
             _currentEntry.Name = txtName.Text;
@@ -548,7 +550,7 @@ namespace Trainer.net
                 {
                     offset = Convert.ToUInt32(result, 16);
                 }
-                catch (FormatException ex)
+                catch (FormatException)
                 {
                     MessageBox.Show("Illegal Characters found, make sure to only use correct hexadecimal characters without hex specifier", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -579,6 +581,18 @@ namespace Trainer.net
                 }
                 txtClassname.Text = s;
             }
+        }
+
+        private void txtUnknown_DoubleClick(object sender, EventArgs e)
+        {
+            DlgEditAi dlg = new DlgEditAi(new ShortBitField(ushort.Parse(txtUnknown.Text, NumberStyles.HexNumber)));
+            if (dlg.ShowDialog(this) == DialogResult.OK)
+                txtUnknown.Text = dlg.Value.ToUshort().ToString("X");
+        }
+
+        private void txtUnknown_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
