@@ -72,7 +72,7 @@ namespace Trainer.net.Library
                 writer.Write(Attack4);
             }
             if ((!_trainerBase.UsesCustomItems))
-                writer.Write((ushort)0xFFFF);
+                writer.Write((ushort)0x0000);       //NOTE: This is a padding and could be any value, however 0000 seemed convenient
             return ms.ToArray();
         }
 
